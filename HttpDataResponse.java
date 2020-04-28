@@ -8,6 +8,10 @@
 
 package com.pck.http;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +26,12 @@ public class HttpDataResponse extends  HttpResponse {
 
     public Object getData() {
         return data;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  data != null ? (new Gson()).toJson(data) : "{}";
     }
 }
