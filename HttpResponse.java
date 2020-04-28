@@ -10,7 +10,7 @@ package com.pck.http;
 
 import java.util.List;
 import java.util.Map;
-
+@SuppressWarnings("WeakerAccess")
 public class HttpResponse {
     private int code;
     private Map<String, List<String>> headers;

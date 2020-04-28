@@ -13,9 +13,8 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.pck.napiyon.cahce.NapiyonConstant;
-import com.pck.napiyon.core.model.ServerResponse;
 import com.pck.http.serializers.HttpSerializer;
+
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -195,25 +194,17 @@ class HttpUrlConnectionRequest implements  HttpRequest {
 
     private HttpDataResponse readData(HttpURLConnection connection,RequestTask task) throws Exception {
         int responseCode = getResponseCode(connection);
-        ServerResponse serverResponse = new ServerResponse();
+
         if (responseCode >= 500) {
             String response = getString(connection.getErrorStream(),task);
             Log.e(TAG, response);
-
-            serverResponse.type = NapiyonConstant.ERROR;
-            serverResponse.message = response;
-
-            String json = serializer.serialize(serverResponse);
-
-            return new HttpDataResponse(json,responseCode,connection.getHeaderFields());
+            return new HttpDataResponse(response,responseCode,connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
             String errResponse = getString(connection.getErrorStream(),task);
-            serverResponse.type = NapiyonConstant.ERROR;
-            serverResponse.message = errResponse;
-            String json = serializer.serialize(serverResponse);
-            return new HttpDataResponse(json, responseCode, connection.getHeaderFields());
+
+            return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
 
         InputStream input = new BufferedInputStream(connection.getInputStream());

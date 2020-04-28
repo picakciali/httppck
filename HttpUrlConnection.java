@@ -15,6 +15,7 @@ import com.pck.http.serializers.HttpSerializer;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+@SuppressWarnings("WeakerAccess")
 public class HttpUrlConnection implements  Http{
 
     private final HttpSerializer serializer;

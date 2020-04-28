@@ -11,6 +11,7 @@ package com.pck.http;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("WeakerAccess")
 public class HttpDataResponse extends  HttpResponse {
     private Object data;
 

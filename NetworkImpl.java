@@ -10,7 +10,7 @@ package com.pck.http;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
+@SuppressWarnings("WeakerAccess")
 public class NetworkImpl implements Network {
     private ConnectivityManager manager;
 

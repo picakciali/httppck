@@ -7,7 +7,7 @@
  */
 
 package com.pck.http;
-
+@SuppressWarnings("WeakerAccess")
 public class ResponseHandler<T>{
 
     public final static int ERROR = -1;

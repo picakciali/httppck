@@ -25,5 +25,5 @@ public enum  NetworkError {
     Timeout, /**
      * Bilinmeyen hata
      */
-    Unknown
+    Unknown,
 }
