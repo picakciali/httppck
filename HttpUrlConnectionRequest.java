@@ -12,10 +12,7 @@ package com.pck.http;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
-
 import com.pck.http.serializers.HttpSerializer;
-
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
