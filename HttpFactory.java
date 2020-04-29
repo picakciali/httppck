@@ -14,6 +14,9 @@ import android.net.ConnectivityManager;
 import com.pck.http.serializers.JsonHttpSerializer;
 
 
+/*
+ Factory
+ */
 public class HttpFactory {
 
     public  static  Http create(Context context){
