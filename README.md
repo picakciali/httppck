@@ -65,13 +65,6 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
             }
-           @Override
-           public void onProgressUpdate(int progressCode, int percentComplete){
-               //progressCode => Aksiyon durumu hangi durumda 3 olduğu sürece işlem devam etmekedir
-               //percentComplete => % olarak ekranda gösterilebilir kalan durumu, örnk.  yani "50%" tamamlandı gibi.
-               //percentComplete sürekli veri alış veriş devam ettiği sürece devam güncellenmektedir.
-               //burada uzakdaki sunucu ile veri akışı devam ederken
-               //bunu % olarak saydırabilirsiniz her saniye burdaki method tetiklenir işlem boyunca
-           }
+           
         }).send();
 ```
