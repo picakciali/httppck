@@ -221,7 +221,7 @@ class HttpUrlConnectionRequest implements  HttpRequest {
             return new HttpDataResponse(getString(input,task), responseCode, connection.getHeaderFields());
         }
         String value = getString(input,task);
-        Log.d(TAG, "RECEIVED: " + value);
+       // Log.d(TAG, "RECEIVED: " + value);
         if (type != null)
             Log.d(TAG, "TYPE: "+ type.getName() );
         if (type == Object.class){
