@@ -163,7 +163,6 @@ class HttpUrlConnectionRequest implements  HttpRequest {
                             }
                         }
                         catch (Exception e){
-                            Log.e(TAG,"doInBackgroundcallError:"+e.getClass().getSimpleName());
                             request.handler.error(e.getMessage(), response);
                         }
                     }
@@ -178,7 +177,7 @@ class HttpUrlConnectionRequest implements  HttpRequest {
                             request.handler.failure(NetworkError.UnsupportedMethod);
                             return;
                         }
-                        request.handler.error(TAG +":"+ e.getMessage(),null);
+                        request.handler.error(TAG +"\n"+ e.getMessage(),null);
                     }
                 };
             }finally {
