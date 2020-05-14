@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,7 +107,8 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         if (network.isOffline()){
             handler.failure(NetworkError.Offline);
             handler.complete();
-            Log.d(TAG,"Cancellable.EMPTY");
+            Log.e(TAG,"Cancellable.EMPTY");
+            return;
         }
         new RequestTask(this).execute();
     }
@@ -168,9 +170,15 @@ class HttpUrlConnectionRequest implements  HttpRequest {
                     }
                 };
             }catch (final Exception e){
+                //noinspection ConstantConditions
+                Log.e(TAG, e.getClass().getName() + "\n" + e.getMessage());
                 return  new Action() {
                     @Override
                     public void call() {
+                        if (e instanceof UnknownHostException){
+                            request.handler.failure(NetworkError.UnsupportedMethod);
+                            return;
+                        }
                         request.handler.error(TAG +":"+ e.getMessage(),null);
                     }
                 };
