@@ -163,7 +163,6 @@ class HttpUrlConnectionRequest implements  HttpRequest {
                             }
                         }
                         catch (Exception e){
-
                             Log.e(TAG,"doInBackgroundcallError:"+e.getClass().getSimpleName());
                             request.handler.error(e.getMessage(), response);
                         }
