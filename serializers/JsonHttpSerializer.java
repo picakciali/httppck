@@ -30,7 +30,7 @@ public class JsonHttpSerializer implements  HttpSerializer {
     }
 
     @Override
-    public Object deserialize(String value, Class type)
+    public Object deserialize(String value, Class<?> type)
     {
         return gson.fromJson(value,type);
     }
@@ -40,23 +40,8 @@ public class JsonHttpSerializer implements  HttpSerializer {
         return  gson.fromJson(value,type);
     }
 
-    @Override
-    public <T> T tdeseriliaze(String value, Class<T> type) {
-        return  gson.fromJson(value,type);
-    }
 
 
-    private class ByteArrayToBase64Adapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
 
-        @Override
-        public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return Base64.decode(json.getAsString(), Base64.NO_WRAP);
-        }
-
-        @Override
-        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP));
-        }
-    }
 
 }
