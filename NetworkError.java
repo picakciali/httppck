@@ -6,7 +6,7 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 public enum  NetworkError {
 

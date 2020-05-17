@@ -6,11 +6,10 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 
-
-import com.pck.http.serializers.HttpSerializer;
+import com.pck.httppck.serializers.HttpSerializer;
 
 import java.net.MalformedURLException;
 import java.net.URL;

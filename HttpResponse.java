@@ -6,7 +6,7 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 import java.util.List;
 import java.util.Map;

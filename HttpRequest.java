@@ -6,7 +6,7 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 import java.net.Proxy;
 public interface HttpRequest {

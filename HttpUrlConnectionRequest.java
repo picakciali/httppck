@@ -6,13 +6,15 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
-import com.pck.http.serializers.HttpSerializer;
+
+import com.pck.httppck.serializers.HttpSerializer;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;

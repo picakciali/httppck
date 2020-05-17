@@ -1,4 +1,4 @@
-package com.pck.http.serializers;
+package com.pck.httppck.serializers;
 
 import java.lang.reflect.Type;
 

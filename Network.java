@@ -6,7 +6,7 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 public interface Network  {
     boolean isOffline();

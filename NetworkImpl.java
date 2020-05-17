@@ -6,7 +6,7 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

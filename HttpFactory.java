@@ -6,12 +6,12 @@
  *
  */
 
-package com.pck.http;
+package com.pck.httppck;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import com.pck.http.serializers.JsonHttpSerializer;
+import com.pck.httppck.serializers.JsonHttpSerializer;
 
 
 /*

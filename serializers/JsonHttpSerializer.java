@@ -1,4 +1,4 @@
-package com.pck.http.serializers;
+package com.pck.httppck.serializers;
 
 import android.util.Base64;
 
