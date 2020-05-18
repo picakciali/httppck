@@ -138,6 +138,7 @@ class BasedAuthentication  implements  Authentication {
 
     @Override
     public   void  clearToken(){
+        token = null;
         sharedPreferences.edit().clear().apply();
     }
 
