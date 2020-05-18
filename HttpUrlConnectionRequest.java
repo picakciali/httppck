@@ -138,6 +138,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         new RequestTask(this).execute();
     }
 
+    @Override
     public void setContext(Context context) {
         this.context = context;
     }

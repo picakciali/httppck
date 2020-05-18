@@ -8,7 +8,10 @@
 
 package com.pck.httppck;
 
+import android.content.Context;
+
 import java.net.Proxy;
+@SuppressWarnings("UnusedReturnValue")
 public interface HttpRequest {
 
     /**
@@ -84,6 +87,14 @@ public interface HttpRequest {
      */
     Authentication getAuthentication();
 
+
+    /**
+     * Application Context ihtiyac duyulduğu
+     * zaman bu methotdan
+     * client tarafıbdab set edilebilir
+     * @param context ""
+     */
+    void  setContext(Context context);
 
     /**
      * Arka Plan istekleri yürütmek
