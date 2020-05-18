@@ -11,7 +11,7 @@ Not: Kullanıma başlamadan önce bu kütüphanede JSON formatları için GSON k
 Aşağıdaki örnek belirlelen url'ye UYE sınıfı Json formatında gönderecektirr
 
 ```java
-Http http = HttpFactory.create(context);
+Http http = new HttpFactory().create(context);
 http.post("http://xxxx.com/api/users")
     .data(new UYE("Ali","PIÇAKCI"))
     .send();
