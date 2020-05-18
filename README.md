@@ -74,13 +74,13 @@ Eğer bir Token Based Authentication  sunucunuz varsa bu kütüphaneyle kolayca 
 Not: grant_type değeri default olarak "password" dur..
 
 ```java
-        AuthReseource auth =  new AuthReseource();
-        auth.username = "xxxx";
-        auth.password = "xxxxx";
-        auth.type = AuthType.BasedAuthentication;
-        auth.url = "http://www.xxx.com/token";
+        Credentials credentials =  new Credentials();
+        credentials.username = "xxxx";
+        credentials.password = "xxxxx";
+        credentials.type = AuthType.BasedAuthentication;
+        credentials.url = "http://www.xxx.com/token";
         HttpFactory factory  =  new HttpFactory(HttpFactory.AUTH);
-        factory.setAuthReseource(auth);
+        factory.setCredentials(credentials);
         Http http =  factory.create(context);
         
         http.get("http://www.xxx.com/api/getUsers").handler(responsehandler).send()
