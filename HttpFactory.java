@@ -24,41 +24,39 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
 public class HttpFactory {
 
 
-    public  final  static  int DEFAULT = 1;
-    public  final  static  int AUTH    =2;
+    public final static int DEFAULT = 1;
+    public final static int AUTH = 2;
 
 
-    @IntDef(value = {DEFAULT,AUTH})
-    private  @interface  FactoryType{}
+    @IntDef(value = {DEFAULT, AUTH})
+    private @interface FactoryType {
+    }
 
-    private  AuthReseource authReseource;
-    private  @FactoryType int type;
+    private AuthReseource authReseource;
+    private @FactoryType
+    int type;
 
-    public  HttpFactory(@FactoryType int type){
+    public HttpFactory(@FactoryType int type) {
         this.type = type;
     }
 
-    public  Http create(Context context){
+    public Http create(Context context) {
         ConnectivityManager connectivityManager =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         Network network = new NetworkImpl(connectivityManager);
-        HttpSerializer serializer =  new JsonHttpSerializer();
-        if (type == DEFAULT){
-            return  new HttpUrlConnection(serializer,network);
-
-        }else  if (type == AUTH){
-
-            if (authReseource == null){
-                throw  new PckException("authReseource == null");
+        HttpSerializer serializer = new JsonHttpSerializer();
+        if (type == DEFAULT) {
+            return new HttpUrlConnection(serializer, network);
+        } else if (type == AUTH) {
+            if (authReseource == null) {
+                throw new PckException("authReseource == null");
             }
             authReseource.type = AuthType.BasedAuthentication;
             authReseource.context = context;
-            return  new HttpAuthUrlConnection(serializer,network,authReseource);
+            return new HttpAuthUrlConnection(serializer, network, authReseource);
         }
-        return  null;
+        return null;
     }
-
-
 
     public void setAuthReseource(AuthReseource authReseource) {
         this.authReseource = authReseource;
