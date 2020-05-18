@@ -9,6 +9,7 @@
 package com.pck.httppck;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
@@ -52,7 +53,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private Network network;
     private boolean auth = false;
     private Authentication authentication;
-
+    private Context context;
 
     HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network) {
         this.url = url;
@@ -118,7 +119,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     public void authenticationEnabled(Credentials credentials) {
         this.auth = true;
         if (credentials.type == AuthType.BasedAuthentication) {
-            authentication = new BasedAuthentication(credentials.context);
+            authentication = new BasedAuthentication(context);
             authentication.setRequest(this);
             authentication.setCredentials(credentials);
         } else {
@@ -135,6 +136,10 @@ class HttpUrlConnectionRequest implements HttpRequest {
             return;
         }
         new RequestTask(this).execute();
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 

@@ -16,7 +16,6 @@ public class Credentials {
     public AuthType type;
     public String username;
     public String password;
-    public Context context;
     public String url;
 
     public Credentials() {

@@ -57,8 +57,7 @@ public class HttpFactory {
                 throw new PckException("credentials == null");
             }
             credentials.type = AuthType.BasedAuthentication;
-            credentials.context = context;
-            return new HttpAuthUrlConnection(serializer, network, credentials);
+            return new HttpAuthUrlConnection(serializer, network, credentials,context);
         }
         return null;
     }

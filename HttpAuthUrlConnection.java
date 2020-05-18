@@ -8,6 +8,8 @@
 
 package com.pck.httppck;
 
+import android.content.Context;
+
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.net.MalformedURLException;
@@ -18,16 +20,19 @@ public class HttpAuthUrlConnection extends  AbstractHttp {
 
 
     private final Credentials credentials;
+    private Context context;
 
-    public  HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials){
+    public  HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials,Context context){
         super(serializer,network);
         this.credentials = credentials;
+        this.context =context;
     }
 
     @Override
     public HttpRequest request(String url, String method) {
         try {
             HttpUrlConnectionRequest request = new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
+            request.setContext(context);
             request.authenticationEnabled(credentials);
             return  request;
         } catch (MalformedURLException e) {
