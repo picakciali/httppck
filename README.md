@@ -68,3 +68,18 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
            
         }).send();
 ```
+#Token Based Authentication özelliği eklenmiştir.
+Eğer bir Token Based Authentication  sunucunuz varsa bu kütüphaneyle kolayca implemente edebilirsiniz. Aşağıdaki örnek verilmiştir.
+```java
+        AuthReseource auth =  new AuthReseource();
+        auth.username = "xxxx";
+        auth.password = "xxxxx";
+        auth.type = AuthType.BasedAuthentication;
+        auth.url = ApiEndPoint.TOKEN;
+        HttpFactory factory  =  new HttpFactory(HttpFactory.AUTH);
+        factory.setAuthReseource(auth);
+        Http http =  factory.create(context);
+        
+        http.get("http://www.xxx.com/api/getUsers").handler(responsehandler).send()
+
+```  
