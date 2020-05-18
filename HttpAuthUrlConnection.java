@@ -35,17 +35,3 @@ public class HttpAuthUrlConnection extends  AbstractHttp {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
