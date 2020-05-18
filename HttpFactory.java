@@ -36,6 +36,11 @@ public class HttpFactory {
     private @FactoryType
     int type;
 
+
+    public  HttpFactory(){
+        this(DEFAULT);
+    }
+
     public HttpFactory(@FactoryType int type) {
         this.type = type;
     }
