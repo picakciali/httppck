@@ -76,7 +76,7 @@ Eğer bir Token Based Authentication  sunucunuz varsa bu kütüphaneyle kolayca 
         auth.username = "xxxx";
         auth.password = "xxxxx";
         auth.type = AuthType.BasedAuthentication;
-        auth.url = ApiEndPoint.TOKEN;
+        auth.url = "http://www.xxx.com/token";
         HttpFactory factory  =  new HttpFactory(HttpFactory.AUTH);
         factory.setAuthReseource(auth);
         Http http =  factory.create(context);
