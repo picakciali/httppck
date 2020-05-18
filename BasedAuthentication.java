@@ -24,50 +24,34 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class BasedAuthentication  implements  Authentication {
+class BasedAuthentication implements Authentication {
 
-    private  String grant_type;
-    private  String username;
-    private  String password;
-    private  String token;
-    private  SharedPreferences sharedPreferences;
-    private  final String propName;
-    private  HttpRequest request;
-    private  String expires_in;
-    private  String tokenApiUrl;
+
+    private String token;
+    private SharedPreferences sharedPreferences;
+    private final String propName;
+    private HttpRequest request;
+    private String expires_in;
+    private Credentials credentials;
 
     BasedAuthentication(Context context) {
         this.propName = "access_token";
         String cahceName = "authentication";
-        this.sharedPreferences = context.getSharedPreferences(cahceName,Context.MODE_PRIVATE);
-        this.token = sharedPreferences.getString(propName,null);
-        //grant_type default olarak password değerindedir
-        this.grant_type = "password";
-
+        this.sharedPreferences = context.getSharedPreferences(cahceName, Context.MODE_PRIVATE);
+        this.token = sharedPreferences.getString(propName, null);
+        this.credentials = new Credentials();
     }
 
     @Override
     public String getExpiresIn() {
-        return  expires_in;
+        return expires_in;
     }
 
-
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-
-    }
 
     @Override
     public void addHeaders() {
-        request.header("Content-Type","application/json");
-        request.header("Authorization","Bearer "+token);
+        request.header("Content-Type", "application/json");
+        request.header("Authorization", "Bearer " + token);
     }
 
 
@@ -81,39 +65,39 @@ class BasedAuthentication  implements  Authentication {
                 .build();
         StrictMode.setThreadPolicy(policy);
 
-        HttpURLConnection connection =null;
+        HttpURLConnection connection = null;
         try {
-            URL url = new URL(tokenApiUrl);
+            URL url = new URL(credentials.url);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(60000);
             connection.setReadTimeout(60000);
-            connection.setRequestProperty("Content-Type","application/json");
+            connection.setRequestProperty("Content-Type", "application/json");
 
             connection.setDoOutput(true);
             OutputStream outputStream = new BufferedOutputStream(connection.getOutputStream());
             OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
 
-            writer.write("grant_type="+this.grant_type+"&username="+this.username+"&password="+this.password+"");
+            writer.write("grant_type=" + credentials.grant_type + "&username=" + credentials.username + "&password=" + credentials.password + "");
             writer.flush();
 
             TokenResponse response = readData(connection);
-            if (response != null){
+            if (response != null) {
                 token = response.access_token;
                 expires_in = response.expires_in;
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(propName,token);
+                editor.putString(propName, token);
                 editor.apply();
             }
 
-        }catch (Exception e){
-            throw  new PckException(
+        } catch (Exception e) {
+            throw new PckException(
                     e.getMessage(),
                     new HttpResponse(
                             connection != null ? connection.getResponseCode() : 500,
                             connection != null ? connection.getHeaderFields() : null)
-                        );
-        }finally {
+            );
+        } finally {
             if (connection != null)
                 connection.disconnect();
         }
@@ -130,21 +114,21 @@ class BasedAuthentication  implements  Authentication {
     }
 
     @Override
-    public String getToken(){
-        token = sharedPreferences.getString(propName,null);
-        return  token;
+    public String getToken() {
+        token = sharedPreferences.getString(propName, null);
+        return token;
     }
 
 
     @Override
-    public   void  clearToken(){
+    public void clearToken() {
         token = null;
         sharedPreferences.edit().clear().apply();
     }
 
     @Override
-    public void setApiUrl(String url) {
-        this.tokenApiUrl = url;
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
     }
 
 
@@ -153,15 +137,15 @@ class BasedAuthentication  implements  Authentication {
 
         if (responseCode >= 400) {
             String err = getString(connection.getErrorStream());
-            throw  new PckException(err);
+            throw new PckException(err);
         }
 
         InputStream input = new BufferedInputStream(connection.getInputStream());
         String value = getString(input);
-        return  new Gson().fromJson(value,TokenResponse.class);
+        return new Gson().fromJson(value, TokenResponse.class);
     }
 
-    private  String getString(InputStream input) throws IOException {
+    private String getString(InputStream input) throws IOException {
         String result = null;
 
         int maxLength = 64 * 1024;
@@ -182,6 +166,7 @@ class BasedAuthentication  implements  Authentication {
         }
         return result;
     }
+
     private int getResponseCode(HttpURLConnection connection) throws IOException {
         try {
             return connection.getResponseCode();
@@ -192,8 +177,8 @@ class BasedAuthentication  implements  Authentication {
         }
     }
 
-    static  class  TokenResponse{
-        String  access_token;
+    static class TokenResponse {
+        String access_token;
         String token_type;
         String expires_in;
     }

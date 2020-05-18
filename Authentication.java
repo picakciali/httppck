@@ -12,13 +12,11 @@ public interface Authentication {
 
     String getToken();
     String getExpiresIn();
-    void setUsername(String username);
-    void setPassword(String password);
     void addHeaders();
     void setRequest(HttpRequest request);
     void newToken() throws Exception;
     void refreshToken();
     void clearToken();
-    void setApiUrl(String url);
+    void  setCredentials(Credentials credentials);
 
 }

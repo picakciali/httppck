@@ -119,10 +119,8 @@ class HttpUrlConnectionRequest implements HttpRequest {
         this.auth = true;
         if (credentials.type == AuthType.BasedAuthentication) {
             authentication = new BasedAuthentication(credentials.context);
-            authentication.setUsername(credentials.username);
-            authentication.setPassword(credentials.password);
             authentication.setRequest(this);
-            authentication.setApiUrl(credentials.url);
+            authentication.setCredentials(credentials);
         } else {
             throw new PckException("unsupported authentication");
         }

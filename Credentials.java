@@ -10,10 +10,17 @@ package com.pck.httppck;
 
 import android.content.Context;
 
+@SuppressWarnings("WeakerAccess")
 public class Credentials {
-    public  AuthType type;
-    public  String username;
-    public  String password;
+    public String grant_type;
+    public AuthType type;
+    public String username;
+    public String password;
     public Context context;
-    public  String url;
+    public String url;
+
+    public Credentials() {
+        //grant_type default olarak password değerindedir
+        this.grant_type = "password";
+    }
 }
