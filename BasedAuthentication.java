@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 18.05.2020 15:23
+ *  * Created by Ali PIÇAKCI on 18.05.2020 23:22
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 18.05.2020 15:23
+ *  * Last modified 18.05.2020 23:16
  *
  */
 
@@ -11,11 +11,8 @@ package com.pck.httppck;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
-import android.util.Log;
 
 import com.google.gson.Gson;
-import com.pck.candostum.model.ApiEndPoint;
-import com.pck.candostum.ui.base.BaseActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,7 +21,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 

@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;
@@ -30,7 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
