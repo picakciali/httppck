@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;
@@ -101,6 +100,11 @@ class HttpUrlConnectionRequest implements HttpRequest {
         return this;
     }
 
+    @Override
+    public Authentication getAuthentication() {
+        return  authentication;
+    }
+
 
     @Override
     public HttpRequest handler(ResponseHandler handler) {
@@ -111,7 +115,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public HttpRequest authenticationEnabled(AuthReseource authReseource) {
+    public void authenticationEnabled(AuthReseource authReseource) {
         this.auth = true;
          switch (authReseource.type){
              case BasedAuthentication:
@@ -124,7 +128,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
              default:
                  throw new PckException("unsupported authentication");
          }
-        return this;
     }
 
     @Override

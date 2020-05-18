@@ -47,9 +47,8 @@ public interface HttpRequest {
     /**
      * Authentication özelliği eklenmiştir bu özellik
      * eklenerek bu kütüphaneye
-     * @return ""
      */
-    HttpRequest authenticationEnabled(AuthReseource authRes);
+    void authenticationEnabled(AuthReseource authRes);
 
     /**
      * İstek zaman aşım değeri
@@ -60,6 +59,12 @@ public interface HttpRequest {
     HttpRequest timeout(int timeout);
 
 
+    /**
+     * arka plan işcigini ms cinsinden
+     * bekletir
+     * @param sleep ms cinsinden
+     * @return ""
+     */
     HttpRequest sleep(int sleep);
 
     /**
@@ -70,6 +75,14 @@ public interface HttpRequest {
      */
     HttpRequest proxy(Proxy proxy);
 
+
+    /**
+     * Authentication kullanıyorsa
+     * bu nesneyi clinte cagirdigi
+     * zaman geri verir
+     * @return ""
+     */
+    Authentication getAuthentication();
 
 
     /**
