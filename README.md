@@ -70,6 +70,7 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
 ```
 #Token Based Authentication özelliği eklenmiştir.
 Eğer bir Token Based Authentication  sunucunuz varsa bu kütüphaneyle kolayca implemente edebilirsiniz. Aşağıda nasıl kullanılacağı gösterilmiştir...
+Not: grant_type değeri default olarak "password" dur..
 
 ```java
         AuthReseource auth =  new AuthReseource();
