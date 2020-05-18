@@ -32,7 +32,7 @@ public class HttpFactory {
     private @interface FactoryType {
     }
 
-    private AuthReseource authReseource;
+    private Credentials credentials;
     private @FactoryType
     int type;
 
@@ -53,17 +53,17 @@ public class HttpFactory {
         if (type == DEFAULT) {
             return new HttpUrlConnection(serializer, network);
         } else if (type == AUTH) {
-            if (authReseource == null) {
-                throw new PckException("authReseource == null");
+            if (credentials == null) {
+                throw new PckException("credentials == null");
             }
-            authReseource.type = AuthType.BasedAuthentication;
-            authReseource.context = context;
-            return new HttpAuthUrlConnection(serializer, network, authReseource);
+            credentials.type = AuthType.BasedAuthentication;
+            credentials.context = context;
+            return new HttpAuthUrlConnection(serializer, network, credentials);
         }
         return null;
     }
 
-    public void setAuthReseource(AuthReseource authReseource) {
-        this.authReseource = authReseource;
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
     }
 }

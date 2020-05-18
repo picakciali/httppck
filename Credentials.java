@@ -10,7 +10,7 @@ package com.pck.httppck;
 
 import android.content.Context;
 
-public class AuthReseource {
+public class Credentials {
     public  AuthType type;
     public  String username;
     public  String password;

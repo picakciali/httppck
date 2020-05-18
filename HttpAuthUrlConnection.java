@@ -17,18 +17,18 @@ import java.net.URL;
 public class HttpAuthUrlConnection extends  AbstractHttp {
 
 
-    private final AuthReseource authReseource;
+    private final Credentials credentials;
 
-    public  HttpAuthUrlConnection(HttpSerializer serializer, Network network,AuthReseource authReseource){
+    public  HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials){
         super(serializer,network);
-        this.authReseource = authReseource;
+        this.credentials = credentials;
     }
 
     @Override
     public HttpRequest request(String url, String method) {
         try {
             HttpUrlConnectionRequest request = new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
-            request.authenticationEnabled(authReseource);
+            request.authenticationEnabled(credentials);
             return  request;
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);

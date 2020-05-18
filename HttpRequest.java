@@ -48,7 +48,7 @@ public interface HttpRequest {
      * Authentication özelliği eklenmiştir bu özellik
      * eklenerek bu kütüphaneye
      */
-    void authenticationEnabled(AuthReseource authRes);
+    void authenticationEnabled(Credentials authRes);
 
     /**
      * İstek zaman aşım değeri
