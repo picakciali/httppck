@@ -11,26 +11,56 @@ package com.pck.httppck;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import androidx.annotation.IntDef;
+
+import com.pck.httppck.serializers.HttpSerializer;
 import com.pck.httppck.serializers.JsonHttpSerializer;
 
 
 /*
  Factory
  */
+@SuppressWarnings("WeakerAccess")
 public class HttpFactory {
 
-    public  static  Http create(Context context){
 
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return  new HttpUrlConnection(new JsonHttpSerializer(),new NetworkImpl(connectivityManager));
+    public  final  static  int DEFAULT = 1;
+    public  final  static  int AUTH    =2;
+
+
+    @IntDef(value = {DEFAULT,AUTH})
+    private  @interface  FactoryType{}
+
+    private  AuthReseource authReseource;
+    private  @FactoryType int type;
+
+    public  HttpFactory(@FactoryType int type){
+        this.type = type;
     }
 
-    public  static  Http basedAuthCreate(Context context,AuthReseource authReseource){
+    public  Http create(Context context){
         ConnectivityManager connectivityManager =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        authReseource.type = AuthType.BasedAuthentication;
-        authReseource.context = context;
-        return  new HttpAuthUrlConnection(new JsonHttpSerializer(),new NetworkImpl(connectivityManager),authReseource);
+        Network network = new NetworkImpl(connectivityManager);
+        HttpSerializer serializer =  new JsonHttpSerializer();
+        if (type == DEFAULT){
+            return  new HttpUrlConnection(serializer,network);
+
+        }else  if (type == AUTH){
+
+            if (authReseource == null){
+                throw  new PckException("authReseource == null");
+            }
+            authReseource.type = AuthType.BasedAuthentication;
+            authReseource.context = context;
+            return  new HttpAuthUrlConnection(serializer,network,authReseource);
+        }
+        return  null;
+    }
+
+
+
+    public void setAuthReseource(AuthReseource authReseource) {
+        this.authReseource = authReseource;
     }
 }
