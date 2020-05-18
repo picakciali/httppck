@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;
