@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;
@@ -33,15 +34,15 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-class HttpUrlConnectionRequest implements  HttpRequest {
+class HttpUrlConnectionRequest implements HttpRequest {
 
-    private static final String TAG = "HttpPck";
+    private static final String TAG = "|httpPck|";
     private static final int DEFAULT_TIMEOUT = 60000;
-    private  static final  int DEFAULT_SLEEP =  500;
+    private static final int DEFAULT_SLEEP = 500;
 
     private Proxy proxy = Proxy.NO_PROXY;
     private int timeout = DEFAULT_TIMEOUT;
-    private  int sleep = DEFAULT_SLEEP;
+    private int sleep = DEFAULT_SLEEP;
     private String contentType;
     private ResponseHandler handler = new ResponseHandler();
     private Map<String, String> headers = new HashMap<>();
@@ -51,8 +52,11 @@ class HttpUrlConnectionRequest implements  HttpRequest {
     private String method;
     private HttpSerializer serializer;
     private Network network;
+    private boolean auth = false;
+    private Authentication authentication;
 
-    HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network){
+
+    HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network) {
         this.url = url;
         this.method = method;
         this.serializer = serializer;
@@ -63,37 +67,39 @@ class HttpUrlConnectionRequest implements  HttpRequest {
     @Override
     public HttpRequest data(Object data) {
         this.data = data;
-        return  this;
+        return this;
     }
 
     @Override
     public HttpRequest header(String key, String value) {
-        headers.put(key,value);
-        return  this;
+        headers.put(key, value);
+        return this;
     }
 
 
     @Override
     public HttpRequest contentType(String value) {
         this.contentType = value;
-        return  this;
+        return this;
     }
 
 
     @Override
     public HttpRequest timeout(int timeout) {
         this.timeout = timeout;
-        return  this;
+        return this;
     }
+
     @Override
     public HttpRequest sleep(int sleep) {
         this.sleep = sleep;
-        return  this;
+        return this;
     }
+
     @Override
     public HttpRequest proxy(Proxy proxy) {
         this.proxy = proxy;
-        return  this;
+        return this;
     }
 
 
@@ -101,26 +107,43 @@ class HttpUrlConnectionRequest implements  HttpRequest {
     public HttpRequest handler(ResponseHandler handler) {
         this.handler = handler;
         this.type = findType(handler);
-        return  this;
+        return this;
+    }
+
+
+    @Override
+    public HttpRequest authenticationEnabled(AuthReseource authReseource) {
+        this.auth = true;
+         switch (authReseource.type){
+             case BasedAuthentication:
+                 authentication = new BasedAuthentication(authReseource.context);
+                 authentication.setUsername(authReseource.username);
+                 authentication.setPassword(authReseource.password);
+                 authentication.setRequest(this);
+                 authentication.setApiUrl(authReseource.url);
+                 break;
+             default:
+                 throw new PckException("unsupported authentication");
+         }
+        return this;
     }
 
     @Override
     public void send() {
-        if (network.isOffline()){
+        if (network.isOffline()) {
             handler.failure(NetworkError.Offline);
             handler.complete();
-            Log.e(TAG,"Cancellable.EMPTY");
+            Log.e(TAG, "Cancellable.EMPTY");
             return;
         }
         new RequestTask(this).execute();
     }
 
 
-
-    private  static  class  RequestTask extends AsyncTask<Void,Integer, Action> {
-        HttpUrlConnectionRequest request;
-
-        RequestTask(HttpUrlConnectionRequest request){
+    private static class RequestTask extends AsyncTask<Void, Integer, Action> {
+        private HttpUrlConnectionRequest request;
+        private HttpURLConnection connection;
+        RequestTask(HttpUrlConnectionRequest request) {
             this.request = request;
         }
 
@@ -137,7 +160,7 @@ class HttpUrlConnectionRequest implements  HttpRequest {
             } catch (InterruptedException ignored) {
 
             }
-            Log.d(TAG,"doInBackground");
+            Log.d(TAG, "doInBackground");
 
             StrictMode.ThreadPolicy policy = new StrictMode
                     .ThreadPolicy
@@ -146,69 +169,104 @@ class HttpUrlConnectionRequest implements  HttpRequest {
                     .build();
             StrictMode.setThreadPolicy(policy);
 
-            HttpURLConnection connection = null;
-
-            try{
-                connection = (HttpURLConnection) request.url.openConnection(request.proxy);
-                request.init(connection);
-                request.sendData(connection);
-                final HttpDataResponse response = request.readData(connection,this);
-
-                return  new Action() {
+            try {
+                HttpDataResponse response = getResponse();
+                return new Action() {
+                    @SuppressWarnings("unchecked")
                     @Override
                     public void call() {
-                        try {
-                            if (response.getCode() < 400)
-                                request.handler.success(response.getData(), response);
-                            else {
-                                request.handler.error((String) response.getData(), response);
+
+                        if (response.getCode() < 400) {
+
+                            request.handler.success(response.getData(), response);
+                        }else{
+
+                            String error = (String) response.getData();
+                            if (request.auth){
+                                if (error.contains("yetkilendirme")
+                                        || error.contains("authentication")
+                                        || error.contains("Authentication")){
+                                    //token yenileme
+                                    if (connection != null){
+                                        connection.disconnect();
+                                        connection = null;
+                                    }
+
+                                    request.authentication.clearToken();
+                                    HttpDataResponse newResponse = getResponse();
+                                    Log.e(TAG,"token refresh");
+                                    if (newResponse.getCode() < 400) {
+                                        request.handler.success(newResponse.getData(), newResponse);
+                                    }else {
+                                        request.handler.error((String) newResponse.getData(),
+                                                newResponse);
+                                    }
+                                    return;
+                                }
                             }
-                        }
-                        catch (Exception e){
-                            request.handler.error(e.getMessage(), response);
+                            request.handler.error((String) response.getData(), response);
                         }
                     }
                 };
-            }catch (final Exception e){
-                //noinspection ConstantConditions
-                Log.e(TAG, e.getClass().getName() + "\n" + e.getMessage());
-                return  new Action() {
+            } catch (final Exception e) {
+                return new Action() {
                     @Override
                     public void call() {
-                        if (e instanceof UnknownHostException){
-                            request.handler.failure(NetworkError.UnsupportedMethod);
-                            return;
-                        }
-                        request.handler.error(TAG +"\n"+ e.getMessage(),null);
+                        request.handler.error(TAG + ":" + e.getMessage(), null);
                     }
                 };
-            }finally {
+            } finally {
                 if (connection != null)
                     connection.disconnect();
             }
 
         }
-
         @Override
         protected void onPostExecute(Action action) {
             action.call();
             request.handler.complete();
             Log.d(TAG, "complete");
         }
+
+
+
+        private  HttpDataResponse  getResponse()  {
+            try {
+                if (request.auth) {
+                    Authentication authentication = request.authentication;
+                    String token = authentication.getToken();
+                    if (token == null) {
+                        authentication.newToken();
+                    }
+                    authentication.addHeaders();
+
+                }
+                connection = (HttpURLConnection) request.url.openConnection(request.proxy);
+                request.init(connection);
+                request.sendData(connection);
+                return request.readData(connection, this);
+            }catch (Exception e){
+                if (e instanceof  PckException){
+                    PckException exception = (PckException) e;
+                    return  new HttpDataResponse(e.getMessage(),exception.getResponse().getCode(),exception.getResponse().getHeaders());
+                }
+                return new HttpDataResponse(e.getMessage(),500,null);
+            }
+        }
     }
 
-    private HttpDataResponse readData(HttpURLConnection connection,RequestTask task) throws Exception {
+
+    private HttpDataResponse readData(HttpURLConnection connection, RequestTask task) throws Exception {
         int responseCode = getResponseCode(connection);
 
         if (responseCode >= 500) {
-            String response = getString(connection.getErrorStream(),task);
+            String response = getString(connection.getErrorStream(), task);
             Log.e(TAG, response);
-            return new HttpDataResponse(response,responseCode,connection.getHeaderFields());
+            return new HttpDataResponse(response, responseCode, connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
-            String errResponse = getString(connection.getErrorStream(),task);
-
+            String errResponse = getString(connection.getErrorStream(), task);
             return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
 
@@ -226,24 +284,23 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         }
 
         if (type.equals(String.class)) {
-            return new HttpDataResponse(getString(input,task), responseCode, connection.getHeaderFields());
+            return new HttpDataResponse(getString(input, task), responseCode, connection.getHeaderFields());
         }
-        String value = getString(input,task);
-       // Log.d(TAG, "RECEIVED: " + value);
+        String value = getString(input, task);
+        // Log.d(TAG, "RECEIVED: " + value);
         if (type != null)
-            Log.d(TAG, "TYPE: "+ type.getName() );
-        if (type == Object.class){
+            Log.d(TAG, "TYPE: " + type.getName());
+        if (type == Object.class) {
 
             return new HttpDataResponse(value, responseCode, connection.getHeaderFields());
         }
-
 
 
         return new HttpDataResponse(serializer.deserialize(value, type), responseCode, connection.getHeaderFields());
 
     }
 
-    private  String getString(InputStream input,RequestTask task) throws  IOException{
+    private String getString(InputStream input, RequestTask task) throws IOException {
         String result = null;
 
         int maxLength = 64 * 1024;
@@ -264,6 +321,7 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         }
         return result;
     }
+
     private int getResponseCode(HttpURLConnection connection) throws IOException {
         try {
             return connection.getResponseCode();
@@ -274,9 +332,9 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         }
     }
 
-    private void validate(HttpURLConnection connection) throws  Exception {
+    private void validate(HttpURLConnection connection) {
         if (!url.getHost().equals(connection.getURL().getHost())) {
-            throw new  Exception("\"NetworkAuthenticationException\"");
+            throw new PckException("\"NetworkAuthenticationException\"");
         }
     }
 
@@ -284,8 +342,8 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         connection.setRequestMethod(method);
         connection.setConnectTimeout(timeout);
         connection.setReadTimeout(timeout);
-        for (Map.Entry<String, String> enty:headers.entrySet()){
-            connection.setRequestProperty(enty.getKey(),enty.getValue());
+        for (Map.Entry<String, String> enty : headers.entrySet()) {
+            connection.setRequestProperty(enty.getKey(), enty.getValue());
         }
         setContentType(data, connection);
     }
@@ -299,22 +357,20 @@ class HttpUrlConnectionRequest implements  HttpRequest {
         OutputStream outputStream = new BufferedOutputStream(connection.getOutputStream());
         try {
             if (data instanceof InputStream) {
-                copyStream((InputStream)data, outputStream);
-            }
-            else if (data instanceof String) {
+                copyStream((InputStream) data, outputStream);
+            } else if (data instanceof String) {
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 Log.d(TAG, "SENT: " + data);
-                writer.write((String)data);
+                writer.write((String) data);
                 writer.flush();
-            }
-            else {
+            } else {
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 String output = serializer.serialize(data);
                 Log.d(TAG, "SENT: " + output);
                 writer.write(output);
                 writer.flush();
             }
-        }finally {
+        } finally {
             outputStream.flush();
             outputStream.close();
         }
@@ -323,14 +379,15 @@ class HttpUrlConnectionRequest implements  HttpRequest {
     private void copyStream(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[64 * 1024];
         int bytes;
-        while ((bytes = input.read(buffer))!=-1){
-            output.write(buffer,0,bytes);
+        while ((bytes = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytes);
         }
     }
+
     private void setContentType(Object data, HttpURLConnection connection) {
         if (headers.containsKey("Content-Type"))
             return;
-        if (contentType != null){
+        if (contentType != null) {
             connection.setRequestProperty("Content-Type", contentType);
             return;
         }
@@ -344,14 +401,14 @@ class HttpUrlConnectionRequest implements  HttpRequest {
 
     private Class findType(ResponseHandler handler) {
         Method[] methods = handler.getClass().getMethods();
-        for (Method method:methods){
-            if (method.getName().equals("success")){
+        for (Method method : methods) {
+            if (method.getName().equals("success")) {
                 Class param = method.getParameterTypes()[0];
                 if (!param.equals(Object.class))
-                    return  param;
+                    return param;
             }
         }
 
-        return  Object.class;
+        return Object.class;
     }
 }

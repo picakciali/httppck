@@ -45,6 +45,13 @@ public interface HttpRequest {
     HttpRequest handler(ResponseHandler handler);
 
     /**
+     * Authentication özelliği eklenmiştir bu özellik
+     * eklenerek bu kütüphaneye
+     * @return ""
+     */
+    HttpRequest authenticationEnabled(AuthReseource authRes);
+
+    /**
      * İstek zaman aşım değeri
      * varsayılan olarak 60 Saniyedir
      * @param timeout 60 Saniye

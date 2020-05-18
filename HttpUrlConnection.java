@@ -15,34 +15,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @SuppressWarnings("WeakerAccess")
-public class HttpUrlConnection implements  Http{
 
-    private final HttpSerializer serializer;
-    private final Network network;
+public  class HttpUrlConnection extends  AbstractHttp{
 
     public  HttpUrlConnection(HttpSerializer serializer, Network network){
-        this.serializer = serializer;
-        this.network  = network;
-    }
-
-    @Override
-    public HttpRequest get(String url) {
-        return request(url,"GET");
-    }
-
-    @Override
-    public HttpRequest post(String url) {
-        return request(url,"POST");
-    }
-
-    @Override
-    public HttpRequest put(String url) {
-        return request(url,"PUT");
-    }
-
-    @Override
-    public HttpRequest delete(String url) {
-        return request(url,"DELETE");
+        super(serializer,network);
     }
 
     @Override

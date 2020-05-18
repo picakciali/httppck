@@ -25,4 +25,12 @@ public class HttpFactory {
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return  new HttpUrlConnection(new JsonHttpSerializer(),new NetworkImpl(connectivityManager));
     }
+
+    public  static  Http basedAuthCreate(Context context,AuthReseource authReseource){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        authReseource.type = AuthType.BasedAuthentication;
+        authReseource.context = context;
+        return  new HttpAuthUrlConnection(new JsonHttpSerializer(),new NetworkImpl(connectivityManager),authReseource);
+    }
 }
