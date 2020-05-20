@@ -9,5 +9,6 @@
 package com.pck.httppck;
 
 public enum  AuthType {
-    BasedAuthentication
+    BasicAuthentication,
+    TokenBasedAuthentication
 }

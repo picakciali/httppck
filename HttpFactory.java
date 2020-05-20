@@ -25,10 +25,10 @@ public class HttpFactory {
 
 
     public final static int DEFAULT = 1;
-    public final static int AUTH = 2;
+    public final static int TOKENBASEDAUTH = 2;
 
 
-    @IntDef(value = {DEFAULT, AUTH})
+    @IntDef(value = {DEFAULT, TOKENBASEDAUTH})
     private @interface FactoryType {
     }
 
@@ -52,11 +52,11 @@ public class HttpFactory {
         HttpSerializer serializer = new JsonHttpSerializer();
         if (type == DEFAULT) {
             return new HttpUrlConnection(serializer, network);
-        } else if (type == AUTH) {
+        } else if (type == TOKENBASEDAUTH) {
             if (credentials == null) {
                 throw new PckException("credentials == null");
             }
-            credentials.type = AuthType.BasedAuthentication;
+            credentials.type = AuthType.TokenBasedAuthentication;
             return new HttpAuthUrlConnection(serializer, network, credentials,context);
         }
         return null;
