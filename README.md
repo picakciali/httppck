@@ -77,7 +77,7 @@ Not: grant_type değeri default olarak "password" dur..
         Credentials credentials =  new Credentials();
         credentials.username = "xxxx";
         credentials.password = "xxxxx";
-        credentials.type = AuthType.BasedAuthentication;
+        credentials.type = AuthType.TokenBasedAuthentication;
         credentials.url = "http://www.xxx.com/token";
         HttpFactory factory  =  new HttpFactory(HttpFactory.AUTH);
         factory.setCredentials(credentials);
