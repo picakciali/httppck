@@ -42,8 +42,6 @@ abstract class AbstractHttp   implements Http{
     }
 
 
-    @Override
-    public HttpRequest request(String url, String method) {
-        return null;
-    }
+    
+    public abstract HttpRequest request(String url, String method);
 }
