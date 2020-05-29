@@ -20,7 +20,7 @@ public class HttpAuthUrlConnection extends  AbstractHttp {
 
 
     private final Credentials credentials;
-    private Context context;
+    private final Context context;
 
     public  HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials,Context context){
         super(serializer,network);
