@@ -48,8 +48,8 @@ public interface HttpRequest {
     HttpRequest handler(ResponseHandler handler);
 
     /**
-     * Authentication özelliği eklenmiştir bu özellik
-     * eklenerek bu kütüphaneye
+     * isteğe Authentication yetisi kazandırmak
+     * için bu method kullanılır
      */
     void authenticationEnabled(Credentials authRes);
 
