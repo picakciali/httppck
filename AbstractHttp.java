@@ -18,7 +18,7 @@ abstract class AbstractHttp   implements Http{
 
     AbstractHttp(HttpSerializer serializer, Network network){
         this.serializer = serializer;
-        this.network  = network;
+        this.network    = network;
     }
 
     @Override
