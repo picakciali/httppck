@@ -86,3 +86,9 @@ Not: grant_type değeri default olarak "password" dur..
         http.get("http://www.xxx.com/api/getUsers").handler(responsehandler).send()
 
 ```  
+
+#Verilmesi gereken yetkiler
+```java
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```  
