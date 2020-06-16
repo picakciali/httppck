@@ -9,12 +9,10 @@
 package com.pck.httppck;
 
 public interface Authentication {
-
     /**
      * @return token
      */
     String getToken();
-
     /*
      * @return token süresi
      */
@@ -51,5 +49,4 @@ public interface Authentication {
      * nesneye parametre olarak geçer
      */
     void  setCredentials(Credentials credentials);
-
 }
