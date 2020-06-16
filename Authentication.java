@@ -16,7 +16,7 @@ public interface Authentication {
     String getToken();
 
     /*
-     * @return
+     * @return token süresi
      */
     String getExpiresIn();
     /**
