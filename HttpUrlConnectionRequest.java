@@ -187,25 +187,27 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
                             String error = (String) response.getData();
                             if (request.auth){
-                                if (error.contains("yetkilendirme")
-                                        || error.contains("authentication")
-                                        || error.contains("Authentication")){
-                                    //token yenileme
-                                    if (connection != null){
-                                        connection.disconnect();
-                                        connection = null;
-                                    }
+                                if (error != null){
+                                    if ( error.contains("yetkilendirme")
+                                            || error.contains("authentication")
+                                            || error.contains("Authentication")){
+                                        //token yenileme
+                                        if (connection != null){
+                                            connection.disconnect();
+                                            connection = null;
+                                        }
 
-                                    request.authentication.clearToken();
-                                    HttpDataResponse newResponse = getResponse();
-                                    Log.e(TAG,"token refresh");
-                                    if (newResponse.getCode() < 400) {
-                                        request.handler.success(newResponse.getData(), newResponse);
-                                    }else {
-                                        request.handler.error((String) newResponse.getData(),
-                                                newResponse);
+                                        request.authentication.clearToken();
+                                        HttpDataResponse newResponse = getResponse();
+                                        Log.e(TAG,"token refresh");
+                                        if (newResponse.getCode() < 400) {
+                                            request.handler.success(newResponse.getData(), newResponse);
+                                        }else {
+                                            request.handler.error((String) newResponse.getData(),
+                                                    newResponse);
+                                        }
+                                        return;
                                     }
-                                    return;
                                 }
                             }
                             request.handler.error((String) response.getData(), response);
