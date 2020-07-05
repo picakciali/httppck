@@ -20,7 +20,7 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
 /*
  Factory
  */
-@SuppressWarnings("WeakerAccess")
+
 public class HttpFactory {
 
 

@@ -9,14 +9,44 @@
 package com.pck.httppck;
 
 public interface Authentication {
-
+    /**
+     * @return token
+     */
     String getToken();
+    /*
+     * @return token süresi
+     */
     String getExpiresIn();
+    /**
+     * tokeni headere
+     * ekler
+     */
     void addHeaders();
+    /**
+     * mevcut http isteğini
+     * Authentication nesnesine
+     * set eder
+     */
     void setRequest(HttpRequest request);
+    /**
+     * yeni token alma sunucudan
+     */
     void newToken() throws Exception;
+    /**
+     * tokeni yenile
+     * TokenBasedAuthentication ile doğrulamada
+     * token yenilemeside #newToken() methodu ile
+     * gerçekleştirilmiştir
+     */
     void refreshToken();
+    /**
+     * tokeni bellekten ve
+     * cahceden temizler
+     */
     void clearToken();
+    /**
+     * doğrulama bilgilerini
+     * nesneye parametre olarak geçer
+     */
     void  setCredentials(Credentials credentials);
-
 }

@@ -7,6 +7,12 @@ Not: Kullanıma başlamadan önce bu kütüphanede JSON formatları için GSON k
  compile 'com.google.code.gson:gson:2.8.1'
 ```
 
+# Verilmesi gereken yetkiler
+```java
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```  
+
 # Kullanım
 Aşağıdaki örnek belirlelen url'ye UYE sınıfı Json formatında gönderecektirr
 
