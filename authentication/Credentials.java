@@ -8,7 +8,7 @@
 
 package com.pck.httppck.authentication;
 
-@SuppressWarnings("WeakerAccess")
+
 public class Credentials {
     public String grant_type;
     public AuthType type;
