@@ -1,5 +1,5 @@
 # Httppck- Android REST (JSON) Client 
-Httppck, Android uygulamarınızda REST isteklerinizi basit bir şekilde yapabilmek için  tasarlanmıştır, Android SDK içinde olan AsyncTask sınıfını kullanarak REST uygulamarınızda Http işleminiz sonuclana kadar isterseniz kullanıcıya bir bilgilendirme ekranı gösterebilirsiniz..
+Httppck, Android uygulamarınızda REST isteklerinizi basit bir şekilde yapabilmek için  tasarlanmıştır, Android SDK içinde olan AsyncTask sınıfını kullanarak arka plan isteklerini yürütür..
 
 Not: Kullanıma başlamadan önce bu kütüphanede JSON formatları için GSON kütüphanesi kullanılmıştır aşağıdaki Repository adresinden android projenize ekleyebilirsiniz
 
