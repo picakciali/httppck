@@ -367,6 +367,18 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
 
+    private void  infoLog(String message){
+        if (this.log){
+            Log.i(TAG,message);
+        }
+    }
+    private void  errLog(String message){
+        if (this.log){
+            Log.e(TAG,message);
+        }
+    }
+
+
     private void sendData(HttpURLConnection connection) throws IOException {
         if (data == null)
             return;
@@ -394,75 +406,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
             outputStream.close();
         }
     }
-    private void sendDataLog(String send,Object data){
-        try {
-            String builder = "  " +
-                    "\nHttpPck               :Request\n" +
-                    "Method Name           :send_data" +
-                    "\n" +
-                    "send object type      :" + data.getClass().getName() +
-                    "\n" +
-                    "toString              :" + data.toString() +
-                    "\n" +
-                    "seriliaze             :" + send ;
-            infoLog(builder);
-        }catch (Exception ignored){}
-    }
 
-
-    private void okStringResLog(String response,int code){
-        String builder = "  " +
-                "\nHttpPck                    :Response\n" +
-                "Method Name                :read_data" +
-                "\n" +
-                "respose code               :" + code+
-                "\n" +
-                "success object type        :" + type.getName() +
-                "\n" +
-                "value                      :" + response ;
-        infoLog(builder);
-    }
-
-    private void erResLog(String error,int code){
-        String builder = "  " +
-                "\nHttpPck                 :Error  Response\n" +
-                "Method Name             :read_data" +
-                "\n" +
-                "respose code            :" + code+
-                "\n" +
-                "success object type     :" + type.getName() +
-                "\n" +
-                "Error                   :" + error ;
-        errLog(builder);
-    }
-
-    private void resLog(String value,int responseCode){
-       try {
-           String builder = "  " +
-                   "\nHttpPck                      :Response\n" +
-                   "Method Name                  :read_data" +
-                   "\n" +
-                   "respose code                 :" + responseCode +
-                   "\n" +
-                   "success object type          :" + type.getName() +
-                   "\n" +
-                   "response                     :" + value +
-                   "\n" +
-                   "deserialize                  :" + serializer.deserialize(value, type);
-           infoLog(builder);
-
-       }catch (Exception ignored){}
-    }
-    private void  infoLog(String message){
-        if (this.log){
-            Log.i(TAG,message);
-        }
-    }
-    private void  errLog(String message){
-        if (this.log){
-            Log.e(TAG,message);
-        }
-    }
 
     private void copyStream(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[64 * 1024];
@@ -485,6 +429,69 @@ class HttpUrlConnectionRequest implements HttpRequest {
             connection.setRequestProperty("Content-Type", serializer.getContentType());
 
     }
+    private void sendDataLog(String send,Object data){
+        try {
+            String builder = "  " +
+                    "\nHttpPck               :Request\n" +
+                    "Method Name           :send_data" +
+                    "\n" +
+                    "send object type      :" + data.getClass().getName() +
+                    "\n" +
+                    "toString              :" + data.toString() +
+                    "\n" +
+                    "seriliaze             :" + send ;
+            infoLog(builder);
+        }catch (Exception ignored){}
+    }
+
+
+    private void okStringResLog(String response,int code){
+        try {
+            String builder = "  " +
+                    "\nHttpPck                    :Response\n" +
+                    "Method Name                :read_data" +
+                    "\n" +
+                    "respose code               :" + code+
+                    "\n" +
+                    "success object type        :" + type.getName() +
+                    "\n" +
+                    "value                      :" + response ;
+            infoLog(builder);
+        }catch (Exception ignored){}
+    }
+
+    private void erResLog(String error,int code){
+        try {
+            String builder = "  " +
+                    "\nHttpPck                 :Error  Response\n" +
+                    "Method Name             :read_data" +
+                    "\n" +
+                    "respose code            :" + code+
+                    "\n" +
+                    "success object type     :" + type.getName() +
+                    "\n" +
+                    "Error                   :" + error ;
+            errLog(builder);
+        }catch (Exception ignored){}
+    }
+
+    private void resLog(String value,int responseCode){
+        try {
+            String builder = "  " +
+                    "\nHttpPck                      :Response\n" +
+                    "Method Name                  :read_data" +
+                    "\n" +
+                    "respose code                 :" + responseCode +
+                    "\n" +
+                    "success object type          :" + type.getName() +
+                    "\n" +
+                    "response                     :" + value +
+                    "\n" +
+                    "deserialize                  :" + serializer.deserialize(value, type);
+            infoLog(builder);
+        }catch (Exception ignored){}
+    }
+
 
 
     private Class<?> findType(ResponseHandler<?> handler) {
