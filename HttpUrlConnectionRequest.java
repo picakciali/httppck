@@ -182,11 +182,10 @@ class HttpUrlConnectionRequest implements HttpRequest {
             try {
                 HttpDataResponse response = getResponse();
                 return new Action() {
-                    @SuppressWarnings("unchecked")
                     @Override
                     public void call() {
-
                         if (response.getCode() < 400) {
+                            //noinspection unchecked
                             request.handler.success(response.getData(), response);
                         }else{
 
@@ -206,6 +205,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                         HttpDataResponse newResponse = getResponse();
                                         Log.e(TAG,"token refresh");
                                         if (newResponse.getCode() < 400) {
+                                            //noinspection unchecked
                                             request.handler.success(newResponse.getData(), newResponse);
                                         }else {
                                             request.handler.error((String) newResponse.getData(),
