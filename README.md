@@ -23,7 +23,7 @@ http.post("http://xxxx.com/api/users")
     .send();
 ```
 
-Aşağıdaki örnekte tipik bir yapılan isteğin  işlenmesi gösterilmiştir
+Aşağıdaki örnekte tipik, bir isteğin  işlenmesi gösterilmiştir
 
 ```java
 String url = "http://xxx.xxx.xxx/api/xxx.php";
