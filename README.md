@@ -23,7 +23,7 @@ http.post("http://xxxx.com/api/users")
     .send();
 ```
 
-Eğer işlem bittikden sonra bir geri bildirim istiyorsanız aşağıdaki örnek gibi olacaktır...
+Aşağıdaki örnekte tipik bir yapılan isteğin  işlenmesi gösterilmiştir
 
 ```java
 String url = "http://xxx.xxx.xxx/api/xxx.php";
