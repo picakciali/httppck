@@ -114,7 +114,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public HttpRequest handler(ResponseHandler handler) {
+    public HttpRequest handler(ResponseHandler<?> handler) {
         this.handler = handler;
         this.type = findType(handler);
         return this;

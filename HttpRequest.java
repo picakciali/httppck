@@ -48,7 +48,7 @@ public interface HttpRequest {
      * @param handler handler
      * @return ""
      */
-    HttpRequest handler(ResponseHandler handler);
+    HttpRequest handler(ResponseHandler<?> handler);
 
     /**
      * isteğe Authentication yetisi kazandırmak
