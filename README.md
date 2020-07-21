@@ -41,9 +41,9 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
 
             @Override
             public void success(UYE[] array, HttpResponse response) {
-                //Sunucudan gelen json GSON tarafından bir java array nesnesine
-                //dönüştürüldü, ve sonra burada, List<UYE> nesnesine dönderildi
-                List<UYE> uyeListesi = Arrays.asList(array);
+                //istek yapılan endpoint cevap olarak üyelerin listesini
+                //dönmüş ve liste haline getirilmiştir.
+                List<UYE> uyeListesi = Arrays.asList(array);t
             }
 
             @Override
