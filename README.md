@@ -67,8 +67,8 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
 
             @Override
             public void complete() {
-                //istek ister başarılı ister başarsız olsun en son bu method calısır
-                //ve kullanıcı ekranında acık olan progressDialog kapatılır
+                //kütüphane ile yapılan istekler ister başarılı ister başarsız olsun 
+                //en son complete çağrılmaktadır
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
             }
