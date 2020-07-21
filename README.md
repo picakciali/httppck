@@ -14,7 +14,7 @@ Not: Kullanıma başlamadan önce bu kütüphanede JSON formatları için GSON k
 ```  
 
 # Kullanım
-Aşağıdaki örnek'de belirlenen url'ye bir post isteği yapılmaktadır, Bu post isteğinde UYE nesnesini seriliaze etmenize gerek yoktur, Kütüphane GSON ile otamatik olarak seriliaze ederek yapar isteği
+Aşağıdaki örnek'de belirlenen url'ye bir post isteği yapılmaktadır, Bu post isteğinde UYE nesnesini seriliaze etmenize gerek yoktur, Kütüphane otamatik olarak seriliaze ederek yapar isteği
 
 ```java
 Http http = new HttpFactory().create(context);
