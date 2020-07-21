@@ -57,7 +57,7 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
 
             @Override
             public void failure(NetworkError error) {
-                //Kullanıcının networku yoksa yani interneti  bu methot çalışır
+                //ağ hataları burada işletilmektedir
                 Toast.makeText(context,"Internet bağlatınız yok," +
                         "Lütfen internet ayarlarınızı kontrol ediniz",
                         Toast.LENGTH_SHORT)
