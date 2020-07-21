@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 18.05.2020 23:06
+ *  * Created by Ali PIÇAKCI on 21.07.2020 20:12
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 18.05.2020 23:06
+ *  * Last modified 21.07.2020 19:47
  *
  */
 
@@ -36,6 +36,7 @@ public class HttpAuthUrlConnection extends  AbstractHttp {
             HttpUrlConnectionRequest request = new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
             request.setContext(context);
             request.authenticationEnabled(credentials);
+            request.logStatus(log);
             return  request;
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);

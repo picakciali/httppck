@@ -92,6 +92,14 @@ public interface HttpRequest {
 
 
     /**
+     * Log durumu
+     * istek ve cevaplarla ilgili
+     * detayların LogChat ile basılıp
+     * basılmama tercihini be method ile belirlenmektedir
+     */
+    void logStatus(boolean status);
+
+    /**
      * Application Context ihtiyac duyulduğu
      * zaman bu methotdan
      * client tarafıbdab set edilebilir

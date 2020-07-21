@@ -37,8 +37,8 @@ public class HttpFactory {
     }
 
     private Credentials credentials;
-    private @FactoryType
-    int type;
+    private @FactoryType int type;
+    private boolean log;
 
 
     public  HttpFactory(){
@@ -55,13 +55,17 @@ public class HttpFactory {
         Network network = new NetworkImpl(connectivityManager);
         HttpSerializer serializer = new JsonHttpSerializer();
         if (type == DEFAULT) {
-            return new HttpUrlConnection(serializer, network);
+            HttpUrlConnection con = new HttpUrlConnection(serializer, network);
+            con.log = log;
+            return  con;
         } else if (type == TOKEN_BASED_AUTH) {
             if (credentials == null) {
                 throw new PckException("credentials == null");
             }
             credentials.type = AuthType.TokenBasedAuthentication;
-            return new HttpAuthUrlConnection(serializer, network, credentials,context);
+            HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection(serializer, network, credentials,context);
+            authUrlConnection.log = log;
+            return authUrlConnection;
         }
         return null;
     }
@@ -69,4 +73,10 @@ public class HttpFactory {
     public void setCredentials(Credentials credentials) {
         this.credentials = credentials;
     }
+
+
+    public void enableLog(){
+        this.log = true;
+    }
+
 }

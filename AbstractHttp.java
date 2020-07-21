@@ -11,11 +11,12 @@ package com.pck.httppck;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.serializers.HttpSerializer;
 
-abstract class AbstractHttp   implements Http{
+abstract class AbstractHttp implements Http{
 
 
     final HttpSerializer serializer;
     final Network network;
+    public boolean log;
 
     AbstractHttp(HttpSerializer serializer, Network network){
         this.serializer = serializer;
@@ -44,4 +45,6 @@ abstract class AbstractHttp   implements Http{
 
     @Override
     public abstract HttpRequest request(String url, String method);
+
+
 }

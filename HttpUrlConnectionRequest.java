@@ -60,6 +60,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private boolean auth = false;
     private Authentication authentication;
     private Context context;
+    private boolean log;
 
     HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network) {
         this.url = url;
@@ -110,6 +111,12 @@ class HttpUrlConnectionRequest implements HttpRequest {
     @Override
     public Authentication getAuthentication() {
         return  authentication;
+    }
+
+    @Override
+    public void logStatus(boolean status) {
+        Log.d(TAG,"log durum:"+status);
+        this.log = status;
     }
 
 
@@ -205,7 +212,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                         HttpDataResponse newResponse = getResponse();
                                         Log.e(TAG,"token refresh");
                                         if (newResponse.getCode() < 400) {
-                                            //noinspection unchecked
                                             request.handler.success(newResponse.getData(), newResponse);
                                         }else {
                                             request.handler.error((String) newResponse.getData(),
