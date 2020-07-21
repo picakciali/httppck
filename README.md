@@ -48,7 +48,8 @@ String url = "http://xxx.xxx.xxx/api/xxx.php";
 
             @Override
             public void error(String message, HttpResponse response) {
-                //Olası bir sunucu hatası durumunda bu method çalışır
+                //sunucudan olabilecek hataların döndüğü durumlarda
+                //burada işletilmektedir
                 Log.d("Error",message + " " + "\n" + response.getCode());
                 Toast.makeText(context,"Bir Hata meydana geldi "+ message
                 ,Toast.LENGTH_SHORT)
