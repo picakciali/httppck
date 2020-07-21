@@ -10,9 +10,11 @@ package com.pck.httppck;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.annotation.IntDef;
 
+import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.serializers.HttpSerializer;
@@ -27,10 +29,10 @@ public class HttpFactory {
 
 
     public final static int DEFAULT = 1;
-    public final static int TOKENBASEDAUTH = 2;
+    public final static int TOKEN_BASED_AUTH = 2;
 
 
-    @IntDef(value = {DEFAULT, TOKENBASEDAUTH})
+    @IntDef(value = {DEFAULT, TOKEN_BASED_AUTH})
     private @interface FactoryType {
     }
 
@@ -54,7 +56,7 @@ public class HttpFactory {
         HttpSerializer serializer = new JsonHttpSerializer();
         if (type == DEFAULT) {
             return new HttpUrlConnection(serializer, network);
-        } else if (type == TOKENBASEDAUTH) {
+        } else if (type == TOKEN_BASED_AUTH) {
             if (credentials == null) {
                 throw new PckException("credentials == null");
             }
