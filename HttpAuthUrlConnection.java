@@ -9,7 +9,9 @@
 package com.pck.httppck;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.serializers.HttpSerializer;
@@ -33,11 +35,11 @@ public class HttpAuthUrlConnection extends  AbstractHttp {
     @Override
     public HttpRequest request(String url, String method) {
         try {
-            HttpUrlConnectionRequest request = new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
-            request.setContext(context);
-            request.authenticationEnabled(credentials);
-            request.logStatus(log);
-            return  request;
+
+            return new HttpUrlConnectionRequest(new URL(url), method, serializer, network)
+            .setContext(context)
+            .authenticationEnabled(credentials)
+            .logStatus(log);
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);
         }

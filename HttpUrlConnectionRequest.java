@@ -67,7 +67,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
         this.method = method;
         this.serializer = serializer;
         this.network = network;
-
     }
 
     @Override
@@ -115,16 +114,10 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     @Override
     public HttpRequest logStatus(boolean status) {
-        Log.d(TAG,"log status:"+status);
         this.log = status;
         return this;
     }
 
-    private void logWrite(){
-        if (this.log){
-
-        }
-    }
 
 
     @Override
@@ -142,8 +135,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
             authentication = new TokenBasedAuthentication(context);
             authentication.setRequest(this);
             authentication.setCredentials(credentials);
-        } else {
-            throw new PckException("unsupported authentication :" + credentials.type.name());
         }
 
         return  this;
@@ -154,7 +145,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         if (network.isOffline()) {
             handler.failure(NetworkError.Offline);
             handler.complete();
-            Log.e(TAG, "Cancellable.EMPTY");
+            infoLog("Cancellable.EMPTY");
             return;
         }
         new RequestTask(this).execute();
@@ -205,7 +196,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
                             //noinspection unchecked
                             request.handler.success(response.getData(), response);
                         }else{
-
                             String error = (String) response.getData();
                             if (request.auth){
                                 if (error != null){
@@ -217,10 +207,9 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                             connection.disconnect();
                                             connection = null;
                                         }
-
                                         request.authentication.clearToken();
+                                        request.errLog("old token deleted");
                                         HttpDataResponse newResponse = getResponse();
-                                        Log.e(TAG,"token refresh");
                                         if (newResponse.getCode() < 400) {
                                             //noinspection unchecked
                                             request.handler.success(newResponse.getData(), newResponse);
@@ -253,7 +242,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         protected void onPostExecute(Action action) {
             action.call();
             request.handler.complete();
-            Log.d(TAG, "complete");
+            request.infoLog("httpPck is completed");
         }
 
 
@@ -265,6 +254,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     String token = authentication.getToken();
                     if (token == null) {
                         authentication.newToken();
+                        request.infoLog("token refresh :"+authentication.getToken());
                     }
                     authentication.addHeaders();
 
@@ -289,12 +279,13 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
         if (responseCode >= 500) {
             String response = getString(connection.getErrorStream(), task);
-            Log.e(TAG, response);
+            erResLog(response,responseCode);
             return new HttpDataResponse(response, responseCode, connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
             String errResponse = getString(connection.getErrorStream(), task);
+            erResLog(errResponse,responseCode);
             return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
 
@@ -312,20 +303,17 @@ class HttpUrlConnectionRequest implements HttpRequest {
         }
 
         if (type.equals(String.class)) {
-            return new HttpDataResponse(getString(input, task), responseCode, connection.getHeaderFields());
+            String r = getString(input, task);
+            okStringResLog(r,responseCode);
+            return new HttpDataResponse(r, responseCode, connection.getHeaderFields());
         }
         String value = getString(input, task);
-        Log.d(TAG, "RECEIVED: " + value);
-        if (type != null)
-            Log.d(TAG, "TYPE: " + type.getName());
         if (type == Object.class) {
-
+            okStringResLog(value,responseCode);
             return new HttpDataResponse(value, responseCode, connection.getHeaderFields());
         }
-
-
+        resLog(value,responseCode);
         return new HttpDataResponse(serializer.deserialize(value, type), responseCode, connection.getHeaderFields());
-
     }
 
     private String getString(InputStream input, RequestTask task) throws IOException {
@@ -390,20 +378,89 @@ class HttpUrlConnectionRequest implements HttpRequest {
             } else if (data instanceof String) {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
-                Log.d(TAG, "SENT: " + data);
+                infoLog("SENT: " + data);
                 writer.write((String) data);
                 writer.flush();
             } else {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 String output = serializer.serialize(data);
-                Log.d(TAG, "SENT: " + output);
+                sendDataLog(output,data);
                 writer.write(output);
                 writer.flush();
             }
         } finally {
             outputStream.flush();
             outputStream.close();
+        }
+    }
+    private void sendDataLog(String send,Object data){
+        try {
+            String builder = "  " +
+                    "\nHttpPck               :Request\n" +
+                    "Method Name           :send_data" +
+                    "\n" +
+                    "send object type      :" + data.getClass().getName() +
+                    "\n" +
+                    "toString              :" + data.toString() +
+                    "\n" +
+                    "seriliaze             :" + send ;
+            infoLog(builder);
+        }catch (Exception ignored){}
+    }
+
+
+    private void okStringResLog(String response,int code){
+        String builder = "  " +
+                "\nHttpPck                    :Response\n" +
+                "Method Name                :read_data" +
+                "\n" +
+                "respose code               :" + code+
+                "\n" +
+                "success object type        :" + type.getName() +
+                "\n" +
+                "value                      :" + response ;
+        infoLog(builder);
+    }
+
+    private void erResLog(String error,int code){
+        String builder = "  " +
+                "\nHttpPck                 :Error  Response\n" +
+                "Method Name             :read_data" +
+                "\n" +
+                "respose code            :" + code+
+                "\n" +
+                "success object type     :" + type.getName() +
+                "\n" +
+                "Error                   :" + error ;
+        errLog(builder);
+    }
+
+    private void resLog(String value,int responseCode){
+       try {
+           String builder = "  " +
+                   "\nHttpPck                      :Response\n" +
+                   "Method Name                  :read_data" +
+                   "\n" +
+                   "respose code                 :" + responseCode +
+                   "\n" +
+                   "success object type          :" + type.getName() +
+                   "\n" +
+                   "response                     :" + value +
+                   "\n" +
+                   "deserialize                  :" + serializer.deserialize(value, type);
+           infoLog(builder);
+
+       }catch (Exception ignored){}
+    }
+    private void  infoLog(String message){
+        if (this.log){
+            Log.i(TAG,message);
+        }
+    }
+    private void  errLog(String message){
+        if (this.log){
+            Log.e(TAG,message);
         }
     }
 

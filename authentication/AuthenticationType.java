@@ -9,8 +9,8 @@
 package com.pck.httppck.authentication;
 
 /**
- * Kütüphane tarafından desteklenen doğrulama tipleri
- *    1 ) TokenBasedAuthentication )
+ * Kütüphane tarafından desteklenenker şu an için
+ *    TokenBasedAuthentication )
  */
 public enum AuthenticationType {
         /**
