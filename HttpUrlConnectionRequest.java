@@ -14,7 +14,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.pck.httppck.authentication.AuthType;
+import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Authentication;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.authentication.TokenBasedAuthentication;
@@ -114,9 +114,16 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
     @Override
-    public void logStatus(boolean status) {
-        Log.d(TAG,"log durum:"+status);
+    public HttpRequest logStatus(boolean status) {
+        Log.d(TAG,"log status:"+status);
         this.log = status;
+        return this;
+    }
+
+    private void logWrite(){
+        if (this.log){
+
+        }
     }
 
 
@@ -129,15 +136,17 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public void authenticationEnabled(Credentials credentials) {
+    public HttpRequest authenticationEnabled(Credentials credentials) {
         this.auth = true;
-        if (credentials.type == AuthType.TokenBasedAuthentication) {
+        if (credentials.type == AuthenticationType.TokenBasedAuthentication) {
             authentication = new TokenBasedAuthentication(context);
             authentication.setRequest(this);
             authentication.setCredentials(credentials);
         } else {
             throw new PckException("unsupported authentication :" + credentials.type.name());
         }
+
+        return  this;
     }
 
     @Override
@@ -152,8 +161,9 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
     @Override
-    public void setContext(Context context) {
+    public HttpRequest setContext(Context context) {
         this.context = context;
+        return  this;
     }
 
 
@@ -212,6 +222,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                         HttpDataResponse newResponse = getResponse();
                                         Log.e(TAG,"token refresh");
                                         if (newResponse.getCode() < 400) {
+                                            //noinspection unchecked
                                             request.handler.success(newResponse.getData(), newResponse);
                                         }else {
                                             request.handler.error((String) newResponse.getData(),

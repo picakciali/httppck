@@ -11,9 +11,7 @@ package com.pck.httppck;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import androidx.annotation.IntDef;
-
-import com.pck.httppck.authentication.AuthType;
+import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.network.NetworkImpl;
@@ -32,20 +30,28 @@ public class HttpFactory {
     public final static int TOKEN_BASED_AUTH = 2;
 
 
-    @IntDef(value = {DEFAULT, TOKEN_BASED_AUTH})
-    private @interface FactoryType {
-    }
+
 
     private Credentials credentials;
-    private @FactoryType int type;
+    private AuthenticationType type;
     private boolean log;
 
 
+    /*
+     * Bu constructor ile oluşuturulan
+     * Factory nesnesi normal Http
+     * nesnesi oluştururlar
+     */
     public  HttpFactory(){
-        this(DEFAULT);
+        this(AuthenticationType.None);
     }
 
-    public HttpFactory(@FactoryType int type) {
+    /**
+     * Authentication gerektiren zamanlarda
+     *
+     * @param type Authentication Type
+     */
+    public HttpFactory(AuthenticationType type) {
         this.type = type;
     }
 
@@ -54,15 +60,15 @@ public class HttpFactory {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         Network network = new NetworkImpl(connectivityManager);
         HttpSerializer serializer = new JsonHttpSerializer();
-        if (type == DEFAULT) {
+        if (type == AuthenticationType.None) {
             HttpUrlConnection con = new HttpUrlConnection(serializer, network);
             con.log = log;
             return  con;
-        } else if (type == TOKEN_BASED_AUTH) {
+        } else if (type == AuthenticationType.TokenBasedAuthentication) {
             if (credentials == null) {
                 throw new PckException("credentials == null");
             }
-            credentials.type = AuthType.TokenBasedAuthentication;
+            credentials.type = AuthenticationType.TokenBasedAuthentication;
             HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection(serializer, network, credentials,context);
             authUrlConnection.log = log;
             return authUrlConnection;

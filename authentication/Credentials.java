@@ -11,7 +11,7 @@ package com.pck.httppck.authentication;
 
 public class Credentials {
     public String grant_type;
-    public AuthType type;
+    public AuthenticationType type;
     public String username;
     public String password;
     public String url;

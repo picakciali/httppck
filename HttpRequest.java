@@ -16,15 +16,12 @@ import com.pck.httppck.authentication.Credentials;
 import java.net.Proxy;
 @SuppressWarnings("UnusedReturnValue")
 public interface HttpRequest {
-
     /**
      * Sunucuya gönderilecek olan nesne
      * @param data data entity
      * @return Zincirleme nesne dönümü
      */
     HttpRequest data(Object data);
-
-
     /**
      * Request Heedar Bilgileri
      * @param key Gönderilecek nesnein keyi
@@ -32,8 +29,6 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest header(String key, String value);
-
-
     /**
      * Requestin contentType türünü belirtir
      * genelde Json olarak gönderlir
@@ -41,7 +36,6 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest contentType(String value);
-
     /**
      * Talep bittikden sonra Ui Threada
      * yürütüşecek olan işlemlerin handlerini sağlanır
@@ -49,13 +43,11 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest handler(ResponseHandler<?> handler);
-
     /**
      * isteğe Authentication yetisi kazandırmak
      * için bu method kullanılır
      */
-    void authenticationEnabled(Credentials authRes);
-
+    HttpRequest authenticationEnabled(Credentials authRes);
     /**
      * İstek zaman aşım değeri
      * varsayılan olarak 60 Saniyedir
@@ -63,8 +55,6 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest timeout(int timeout);
-
-
     /**
      * arka plan işcigini ms cinsinden
      * bekletir
@@ -72,7 +62,6 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest sleep(int sleep);
-
     /**
      * Requeste bir proxy gönderilecek gönderilir
      * varsayilen olarak boştuyr
@@ -80,8 +69,20 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest proxy(Proxy proxy);
-
-
+    /**
+     * Log durumu
+     * istek ve cevaplarla ilgili
+     * detayların LogChat ile basılıp
+     * basılmama tercihini be method ile belirlenmektedir
+     */
+    HttpRequest logStatus(boolean status);
+    /**
+     * Application Context ihtiyac duyulduğu
+     * zaman bu methotdan
+     * client tarafıbdab set edilebilir
+     * @param context ""
+     */
+    HttpRequest  setContext(Context context);
     /**
      * Authentication kullanıyorsa
      * bu nesneyi clinte cagirdigi
@@ -89,24 +90,6 @@ public interface HttpRequest {
      * @return ""
      */
     Authentication getAuthentication();
-
-
-    /**
-     * Log durumu
-     * istek ve cevaplarla ilgili
-     * detayların LogChat ile basılıp
-     * basılmama tercihini be method ile belirlenmektedir
-     */
-    void logStatus(boolean status);
-
-    /**
-     * Application Context ihtiyac duyulduğu
-     * zaman bu methotdan
-     * client tarafıbdab set edilebilir
-     * @param context ""
-     */
-    void  setContext(Context context);
-
     /**
      * Arka Plan istekleri yürütmek
      * icin kullanılcak
