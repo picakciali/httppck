@@ -51,7 +51,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private String contentType;
     private ResponseHandler handler = new ResponseHandler();
     private Map<String, String> headers = new HashMap<>();
-    private Class type;
+    private Class<?> type;
     private Object data;
     private URL url;
     private String method;
@@ -116,7 +116,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     @Override
     public HttpRequest handler(ResponseHandler<?> handler) {
         this.handler = handler;
-        this.type = findType(handler);
+        this.type    = findType(handler);
         return this;
     }
 
@@ -315,6 +315,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         String result = null;
 
         int maxLength = 64 * 1024;
+        //noinspection CharsetObjectCanBeUsed
         InputStreamReader reader = new InputStreamReader(input, "UTF-8");
 
         char[] buffer = new char[maxLength];
@@ -337,6 +338,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         try {
             return connection.getResponseCode();
         } catch (IOException e) {
+            //noinspection ConstantConditions
             if (e.getMessage().equals("Received authentication challenge is null"))
                 return 401;
             throw e;
@@ -363,18 +365,19 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private void sendData(HttpURLConnection connection) throws IOException {
         if (data == null)
             return;
-
         connection.setDoOutput(true);
         OutputStream outputStream = new BufferedOutputStream(connection.getOutputStream());
         try {
             if (data instanceof InputStream) {
                 copyStream((InputStream) data, outputStream);
             } else if (data instanceof String) {
+                //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 Log.d(TAG, "SENT: " + data);
                 writer.write((String) data);
                 writer.flush();
             } else {
+                //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 String output = serializer.serialize(data);
                 Log.d(TAG, "SENT: " + output);
@@ -410,11 +413,11 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
 
-    private Class findType(ResponseHandler handler) {
+    private Class<?> findType(ResponseHandler<?> handler) {
         Method[] methods = handler.getClass().getMethods();
         for (Method method : methods) {
             if (method.getName().equals("success")) {
-                Class param = method.getParameterTypes()[0];
+                Class<?> param = method.getParameterTypes()[0];
                 if (!param.equals(Object.class))
                     return param;
             }
