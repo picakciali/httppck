@@ -45,7 +45,7 @@ public interface Authentication {
      */
     void clearToken();
     /**
-     * doğrulama bilgilerini
+     * kimlik bilgilerini
      * nesneye parametre olarak geçer
      */
     void  setCredentials(Credentials credentials);
