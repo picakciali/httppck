@@ -1,18 +1,21 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 18.05.2020 23:22
+ *  * Created by Ali PIÇAKCI on 21.07.2020 19:19
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 18.05.2020 23:16
+ *  * Last modified 20.05.2020 16:43
  *
  */
 
-package com.pck.httppck;
+package com.pck.httppck.authentication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 
 import com.google.gson.Gson;
+import com.pck.httppck.HttpRequest;
+import com.pck.httppck.HttpResponse;
+import com.pck.httppck.PckException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,7 +27,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class TokenBasedAuthentication implements Authentication {
+public class TokenBasedAuthentication implements Authentication {
 
 
     private String token;
@@ -34,7 +37,7 @@ class TokenBasedAuthentication implements Authentication {
     private String expires_in;
     private Credentials credentials;
 
-    TokenBasedAuthentication(Context context) {
+    public TokenBasedAuthentication(Context context) {
         this.propName = "access_token";
         String cahceName = "authentication";
         this.sharedPreferences = context.getSharedPreferences(cahceName, Context.MODE_PRIVATE);

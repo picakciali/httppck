@@ -1,14 +1,12 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 18.05.2020 16:00
+ *  * Created by Ali PIÇAKCI on 21.07.2020 19:20
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 18.05.2020 16:00
+ *  * Last modified 19.05.2020 01:21
  *
  */
 
-package com.pck.httppck;
-
-import android.content.Context;
+package com.pck.httppck.authentication;
 
 @SuppressWarnings("WeakerAccess")
 public class Credentials {

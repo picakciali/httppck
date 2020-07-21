@@ -10,6 +10,7 @@ package com.pck.httppck;
 
 import android.content.Context;
 
+import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.net.MalformedURLException;

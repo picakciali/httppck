@@ -14,6 +14,10 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.pck.httppck.authentication.AuthType;
+import com.pck.httppck.authentication.Authentication;
+import com.pck.httppck.authentication.Credentials;
+import com.pck.httppck.authentication.TokenBasedAuthentication;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;
@@ -164,7 +168,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
             } catch (InterruptedException ignored) {
 
             }
-            Log.d(TAG, "doInBackground");
+
 
             StrictMode.ThreadPolicy policy = new StrictMode
                     .ThreadPolicy
@@ -181,7 +185,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     public void call() {
 
                         if (response.getCode() < 400) {
-
                             request.handler.success(response.getData(), response);
                         }else{
 
@@ -293,7 +296,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
             return new HttpDataResponse(getString(input, task), responseCode, connection.getHeaderFields());
         }
         String value = getString(input, task);
-        // Log.d(TAG, "RECEIVED: " + value);
+        Log.d(TAG, "RECEIVED: " + value);
         if (type != null)
             Log.d(TAG, "TYPE: " + type.getName());
         if (type == Object.class) {

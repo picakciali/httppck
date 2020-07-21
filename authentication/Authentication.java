@@ -1,12 +1,14 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 18.05.2020 15:22
+ *  * Created by Ali PIÇAKCI on 21.07.2020 19:19
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 18.05.2020 15:22
+ *  * Last modified 21.07.2020 19:15
  *
  */
 
-package com.pck.httppck;
+package com.pck.httppck.authentication;
+
+import com.pck.httppck.HttpRequest;
 
 public interface Authentication {
     /**

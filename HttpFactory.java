@@ -13,6 +13,8 @@ import android.net.ConnectivityManager;
 
 import androidx.annotation.IntDef;
 
+import com.pck.httppck.authentication.AuthType;
+import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.serializers.HttpSerializer;
 import com.pck.httppck.serializers.JsonHttpSerializer;
 

@@ -10,6 +10,9 @@ package com.pck.httppck;
 
 import android.content.Context;
 
+import com.pck.httppck.authentication.Authentication;
+import com.pck.httppck.authentication.Credentials;
+
 import java.net.Proxy;
 @SuppressWarnings("UnusedReturnValue")
 public interface HttpRequest {
