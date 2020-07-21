@@ -10,13 +10,13 @@ package com.pck.httppck;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.annotation.IntDef;
 
-import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Credentials;
+import com.pck.httppck.network.Network;
+import com.pck.httppck.network.NetworkImpl;
 import com.pck.httppck.serializers.HttpSerializer;
 import com.pck.httppck.serializers.JsonHttpSerializer;
 

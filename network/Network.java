@@ -1,12 +1,12 @@
 /*
  * *
- *  * Created by Ali PIÇAKCI on 29.04.2020 01:19
+ *  * Created by Ali PIÇAKCI on 21.07.2020 19:45
  *  * Copyright (c) 2020 . All rights reserved.
- *  * Last modified 17.03.2020 20:41
+ *  * Last modified 17.05.2020 17:49
  *
  */
 
-package com.pck.httppck;
+package com.pck.httppck.network;
 
 public interface Network  {
     boolean isOffline();

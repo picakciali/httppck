@@ -7,6 +7,9 @@
  */
 
 package com.pck.httppck;
+
+import com.pck.httppck.network.NetworkError;
+
 @SuppressWarnings("WeakerAccess")
 public class ResponseHandler<T>{
 

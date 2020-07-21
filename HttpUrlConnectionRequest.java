@@ -18,6 +18,8 @@ import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Authentication;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.authentication.TokenBasedAuthentication;
+import com.pck.httppck.network.Network;
+import com.pck.httppck.network.NetworkError;
 import com.pck.httppck.serializers.HttpSerializer;
 
 import java.io.BufferedInputStream;

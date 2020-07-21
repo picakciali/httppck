@@ -8,6 +8,7 @@
 
 package com.pck.httppck;
 
+import com.pck.httppck.network.Network;
 import com.pck.httppck.serializers.HttpSerializer;
 
 abstract class AbstractHttp   implements Http{
