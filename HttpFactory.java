@@ -34,16 +34,17 @@ public class HttpFactory {
 
     /*
      * Bu constructor ile oluşuturulan
-     * Factory nesnesi normal Http
-     * nesnesi oluştururlar
+     * Factory nesnesi herhangi bir kimlik
+     * doğrulama olmayan doğrudan istek durumlarında kullanılabilir
      */
     public  HttpFactory(){
         this(AuthenticationType.None);
     }
 
     /**
-     * Authentication gerektiren zamanlarda
-     *
+     * Kimlik doğrulama gerektiren  http
+     * isteklerinizi bu constructor ile oluşturdugunuz
+     * HttpFactory nesnesinden talep edebilirsiniz
      * @param type Authentication Type
      */
     public HttpFactory(AuthenticationType type) {
