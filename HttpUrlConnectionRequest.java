@@ -189,27 +189,25 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
             try {
                 HttpDataResponse response = getResponse();
-                return new Action() {
-                    @Override
-                    public void call() {
-                        if (response.getCode() < 400) {
-                            //noinspection unchecked
-                            request.handler.success(response.getData(), response);
-                        }else{
-                            String error = (String) response.getData();
-                            if (request.auth){
-                                if (error != null){
-                                    if ( error.contains("yetkilendirme")
-                                            || error.contains("authentication")
-                                            || error.contains("Authentication")){
-                                        //token yenileme
-                                        if (connection != null){
-                                            connection.disconnect();
-                                            connection = null;
-                                        }
-                                        request.authentication.clearToken();
-                                        request.errLog("old token deleted");
-                                        HttpDataResponse newResponse = getResponse();
+                //noinspection StatementWithEmptyBody
+                if (response.getCode() < 400) {
+                }else {
+                    if (request.auth){
+                        String error = (String) response.getData();
+                        if (error != null){
+                            if ( error.contains("yetkilendirme")
+                                    || error.contains("authentication")
+                                    || error.contains("Authentication")){
+                                if (connection != null){
+                                    connection.disconnect();
+                                    connection = null;
+                                }
+                                request.authentication.clearToken();
+                                request.errLog("old token deleted");
+                                HttpDataResponse newResponse = getResponse();
+                                return new Action() {
+                                    @Override
+                                    public void call() {
                                         if (newResponse.getCode() < 400) {
                                             //noinspection unchecked
                                             request.handler.success(newResponse.getData(), newResponse);
@@ -217,10 +215,19 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                             request.handler.error((String) newResponse.getData(),
                                                     newResponse);
                                         }
-                                        return;
                                     }
-                                }
+                                };
                             }
+                        }
+                    }
+                }
+                return new Action() {
+                    @Override
+                    public void call() {
+                        if (response.getCode() < 400) {
+                            //noinspection unchecked
+                            request.handler.success(response.getData(), response);
+                        }else{
                             request.handler.error((String) response.getData(), response);
                         }
                     }
@@ -453,7 +460,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code               :" + code+
                     "\n" +
-                    "success object type        :" + (type!=null ?type.getName() : "null" )+
+                    "success object type        :" + type.getName() +
                     "\n" +
                     "value                      :" + response ;
             infoLog(builder);
@@ -468,7 +475,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code            :" + code+
                     "\n" +
-                    "success object type     :" + (type!=null ?type.getName() : "null" ) +
+                    "success object type     :" + type.getName() +
                     "\n" +
                     "Error                   :" + error ;
             errLog(builder);
@@ -483,7 +490,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code                 :" + responseCode +
                     "\n" +
-                    "success object type          :" + (type!=null ?type.getName() : "null" )+
+                    "success object type          :" + type.getName() +
                     "\n" +
                     "response                     :" + value +
                     "\n" +
