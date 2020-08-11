@@ -453,7 +453,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code               :" + code+
                     "\n" +
-                    "success object type        :" + type.getName() +
+                    "success object type        :" + (type!=null ?type.getName() : "null" )+
                     "\n" +
                     "value                      :" + response ;
             infoLog(builder);
@@ -468,7 +468,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code            :" + code+
                     "\n" +
-                    "success object type     :" + type.getName() +
+                    "success object type     :" + (type!=null ?type.getName() : "null" ) +
                     "\n" +
                     "Error                   :" + error ;
             errLog(builder);
@@ -483,7 +483,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     "\n" +
                     "respose code                 :" + responseCode +
                     "\n" +
-                    "success object type          :" + type.getName() +
+                    "success object type          :" + (type!=null ?type.getName() : "null" )+
                     "\n" +
                     "response                     :" + value +
                     "\n" +
