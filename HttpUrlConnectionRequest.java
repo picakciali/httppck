@@ -198,7 +198,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                             if ( error.contains("yetkilendirme")
                                     || error.contains("authentication")
                                     || error.contains("Authentication")
-                                    || || error.contains("Authorization has been denied for this request.")){
+                                    || error.contains("Authorization has been denied for this request.")){
                                 if (connection != null){
                                     connection.disconnect();
                                     connection = null;
