@@ -17,7 +17,7 @@ import java.util.Map;
 
 @SuppressWarnings("WeakerAccess")
 public class HttpDataResponse extends  HttpResponse {
-    private Object data;
+    private final Object data;
 
     public HttpDataResponse(Object data, int code, Map<String, List<String>> headers) {
         super(code, headers);
