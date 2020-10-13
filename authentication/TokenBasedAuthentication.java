@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.os.StrictMode;
 
 import com.google.gson.Gson;
-import com.pck.candostum.apimanager.ManagerSource;
 import com.pck.httppck.HttpRequest;
 import com.pck.httppck.HttpResponse;
 import com.pck.httppck.PckException;
@@ -86,9 +85,9 @@ public class TokenBasedAuthentication implements Authentication {
                     +
                     credentials.grant_type
                     + "&username="
-                    + ManagerSource.LogClosed.LOXName.lox()
+                    +  credentials.username
                     + "&password="
-                    + ManagerSource.LogClosed.LoxErrorNmae.lox() +
+                    + credentials.password +
                     "");
             writer.flush();
 
