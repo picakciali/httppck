@@ -19,14 +19,13 @@ import com.pck.httppck.serializers.HttpSerializer;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@SuppressWarnings("WeakerAccess")
-public class HttpAuthUrlConnection extends  AbstractHttp {
+class HttpAuthUrlConnection extends  AbstractHttp {
 
 
     private final Credentials credentials;
     private final Context context;
 
-    public  HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials, Context context){
+    HttpAuthUrlConnection(HttpSerializer serializer, Network network, Credentials credentials, Context context){
         super(serializer,network);
         this.credentials = credentials;
         this.context =context;

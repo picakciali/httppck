@@ -37,6 +37,7 @@ import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class HttpUrlConnectionRequest implements HttpRequest {
@@ -253,8 +254,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
             request.infoLog("httpPck is completed");
         }
 
-
-
         private  HttpDataResponse  getResponse()  {
             try {
                 if (request.auth) {
@@ -262,7 +261,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     String token = authentication.getToken();
                     if (token == null) {
                         authentication.newToken();
-                        request.infoLog("token refresh :"+authentication.getToken());
+                        request.errLog("token refresh :"+authentication.getToken());
                     }
                     authentication.addHeaders();
 

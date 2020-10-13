@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.StrictMode;
 
 import com.google.gson.Gson;
+import com.pck.candostum.apimanager.ManagerSource;
 import com.pck.httppck.HttpRequest;
 import com.pck.httppck.HttpResponse;
 import com.pck.httppck.PckException;
@@ -81,7 +82,14 @@ public class TokenBasedAuthentication implements Authentication {
             OutputStream outputStream = new BufferedOutputStream(connection.getOutputStream());
             OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
 
-            writer.write("grant_type=" + credentials.grant_type + "&username=" + credentials.username + "&password=" + credentials.password + "");
+            writer.write("grant_type="
+                    +
+                    credentials.grant_type
+                    + "&username="
+                    + ManagerSource.LogClosed.LOXName.lox()
+                    + "&password="
+                    + ManagerSource.LogClosed.LoxErrorNmae.lox() +
+                    "");
             writer.flush();
 
             TokenResponse response = readData(connection);

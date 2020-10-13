@@ -17,9 +17,9 @@ import java.net.URL;
 
 @SuppressWarnings("WeakerAccess")
 
-public  class HttpUrlConnection extends  AbstractHttp{
+class HttpUrlConnection extends  AbstractHttp{
 
-    public  HttpUrlConnection(HttpSerializer serializer, Network network){
+    HttpUrlConnection(HttpSerializer serializer, Network network){
         super(serializer,network);
     }
 
