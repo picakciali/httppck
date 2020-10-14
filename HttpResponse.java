@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 @SuppressWarnings("WeakerAccess")
 public class HttpResponse {
-    private int code;
-    private Map<String, List<String>> headers;
+    private final int code;
+    private final Map<String, List<String>> headers;
 
     public HttpResponse(int code, Map<String, List<String>> headers) {
         this.code = code;
