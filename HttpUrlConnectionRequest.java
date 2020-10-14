@@ -160,7 +160,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     private static class RequestTask extends AsyncTask<Void, Integer, Action> {
-        private HttpUrlConnectionRequest request;
+        private final HttpUrlConnectionRequest request;
         private HttpURLConnection connection;
         RequestTask(HttpUrlConnectionRequest request) {
             this.request = request;
