@@ -8,7 +8,11 @@
 
 package com.pck.httppck.network;
 
+/**
+ * network
+ */
 public interface Network  {
     boolean isOffline();
     boolean isOnline();
 }
+
