@@ -31,7 +31,7 @@ public class TokenBasedAuthentication implements Authentication {
 
 
     private String token;
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
     private final String propName;
     private HttpRequest request;
     private String expires_in;
