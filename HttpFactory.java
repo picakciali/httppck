@@ -10,9 +10,7 @@ package com.pck.httppck;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
-import com.pck.candostum.ui.base.BaseActivity;
 import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
@@ -28,7 +26,7 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
 public class HttpFactory {
 
     private Credentials credentials;
-    private AuthenticationType type;
+    private final AuthenticationType type;
     private boolean log;
 
 
