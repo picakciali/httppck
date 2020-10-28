@@ -14,10 +14,10 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Authentication;
+import com.pck.httppck.authentication.AuthenticationFactory;
+import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Credentials;
-import com.pck.httppck.authentication.TokenBasedAuthentication;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.network.NetworkError;
 import com.pck.httppck.serializers.HttpSerializer;
@@ -37,7 +37,6 @@ import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 class HttpUrlConnectionRequest implements HttpRequest {
@@ -50,14 +49,15 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private int timeout = DEFAULT_TIMEOUT;
     private int sleep = DEFAULT_SLEEP;
     private String contentType;
+    @SuppressWarnings("rawtypes")
     private ResponseHandler handler = new ResponseHandler();
-    private Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
     private Class<?> type;
     private Object data;
-    private URL url;
-    private String method;
-    private HttpSerializer serializer;
-    private Network network;
+    private final URL url;
+    private final String method;
+    private final HttpSerializer serializer;
+    private final Network network;
     private boolean auth = false;
     private Authentication authentication;
     private Context context;
@@ -130,15 +130,13 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public HttpRequest authentication(Credentials credentials) {
-        if (credentials == null) throw  new PckException("kimlik bilgileri null");
-        this.auth = true;
-        if (credentials.type == AuthenticationType.TokenBasedAuthentication) {
-            authentication = new TokenBasedAuthentication(context);
-            authentication.setRequest(this);
-            authentication.setCredentials(credentials);
-        }
+    public HttpRequest authentication(Credentials credentials,AuthenticationType type) {
+        if (credentials == null) throw  new PckException("credentials === null");
 
+        this.auth = true;
+        authentication = AuthenticationFactory.create(type,context);
+        authentication.setRequest(this);
+        authentication.setCredentials(credentials);
         return  this;
     }
 

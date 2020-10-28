@@ -60,17 +60,16 @@ public class HttpFactory {
             con.log = log;
             return  con;
         }
-        else if (type == AuthenticationType.TokenBasedAuthentication) {
-            if (credentials == null) {
-                throw new PckException("[credentials == null] : " + type.name());
-            }
-            credentials.type = AuthenticationType.TokenBasedAuthentication;
-            HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection(serializer, network, credentials,context);
-            authUrlConnection.log = log;
-            return authUrlConnection;
-        }else {
-            throw new PckException("unsupported authenticationtype: "+type.name());
-        }
+
+        credentials.type = AuthenticationType.TokenBasedAuthentication;
+        HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection
+                (
+                serializer,
+                network,
+                credentials,context,type
+                 );
+        authUrlConnection.log = log;
+        return authUrlConnection;
 
     }
 

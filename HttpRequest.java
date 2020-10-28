@@ -11,6 +11,7 @@ package com.pck.httppck;
 import android.content.Context;
 
 import com.pck.httppck.authentication.Authentication;
+import com.pck.httppck.authentication.AuthenticationType;
 import com.pck.httppck.authentication.Credentials;
 
 import java.net.Proxy;
@@ -46,7 +47,7 @@ public interface HttpRequest {
     /**
      * isteği Authentication ile yapmak için
      */
-    HttpRequest authentication(Credentials authRes);
+    HttpRequest authentication(Credentials credentials, AuthenticationType authenticationType);
     /**
      * İstek zaman aşım değeri
      * varsayılan olarak 60 Saniyedir

@@ -27,7 +27,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class TokenBasedAuthentication implements Authentication {
+class TokenBasedAuthentication implements Authentication {
 
 
     private String token;
@@ -37,7 +37,7 @@ public class TokenBasedAuthentication implements Authentication {
     private String expires_in;
     private Credentials credentials;
 
-    public TokenBasedAuthentication(Context context) {
+    TokenBasedAuthentication(Context context) {
         this.propName = "access_token";
         String cahceName = "authentication";
         this.sharedPreferences = context.getSharedPreferences(cahceName, Context.MODE_PRIVATE);
