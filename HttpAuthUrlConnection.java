@@ -43,7 +43,7 @@ class HttpAuthUrlConnection extends  AbstractHttp {
         try {
 
             return new HttpUrlConnectionRequest(new URL(url), method, serializer, network)
-            .setContext(context)
+            .context(context)
             .authentication(credentials,authenticationType);
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);

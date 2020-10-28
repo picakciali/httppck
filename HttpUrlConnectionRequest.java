@@ -145,7 +145,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setContext(Context context) {
+    public HttpRequest context(Context context) {
         this.context = context;
         return  this;
     }

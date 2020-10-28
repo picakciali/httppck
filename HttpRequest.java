@@ -76,7 +76,7 @@ public interface HttpRequest {
      * client tarafıbdab set edilebilir
      * @param context ""
      */
-    HttpRequest  setContext(Context context);
+    HttpRequest context(Context context);
     /**
      * Authentication kullanıyorsa
      * bu nesneyi clinte cagirdigi
