@@ -131,6 +131,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     @Override
     public HttpRequest authentication(Credentials credentials) {
+        if (credentials == null) throw  new PckException("kimlik bilgileri null");
         this.auth = true;
         if (credentials.type == AuthenticationType.TokenBasedAuthentication) {
             authentication = new TokenBasedAuthentication(context);
