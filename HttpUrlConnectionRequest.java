@@ -130,7 +130,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public HttpRequest authenticationEnabled(Credentials credentials) {
+    public HttpRequest authentication(Credentials credentials) {
         this.auth = true;
         if (credentials.type == AuthenticationType.TokenBasedAuthentication) {
             authentication = new TokenBasedAuthentication(context);

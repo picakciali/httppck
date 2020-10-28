@@ -44,10 +44,9 @@ public interface HttpRequest {
      */
     HttpRequest handler(ResponseHandler<?> handler);
     /**
-     * isteğe Authentication yetisi kazandırmak
-     * için bu method kullanılır
+     * isteği Authentication ile yapmak için
      */
-    HttpRequest authenticationEnabled(Credentials authRes);
+    HttpRequest authentication(Credentials authRes);
     /**
      * İstek zaman aşım değeri
      * varsayılan olarak 60 Saniyedir
