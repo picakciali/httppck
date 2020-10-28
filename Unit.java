@@ -1,9 +1,16 @@
+/*
+ * *
+ *  * Created by Ali PIÇAKCI on 29.04.2020 01:19
+ *  * Copyright (c) 2020 . All rights reserved.
+ *
+ */
 package com.pck.httppck;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+
 
 public class Unit {
     private Unit(){

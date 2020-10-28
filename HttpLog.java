@@ -1,3 +1,9 @@
+/*
+ * *
+ *  * Created by Ali PIÇAKCI on 29.04.2020 01:19
+ *  * Copyright (c) 2020 . All rights reserved.
+ *
+ */
 package com.pck.httppck;
 
 import com.pck.httppck.serializers.HttpSerializer;
