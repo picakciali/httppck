@@ -34,6 +34,36 @@ public class HttpBuilder {
     }
 
 
+    public  HttpBuilder authenticationType(AuthType authType){
+        this.authType = authType;
+        return  this;
+    }
+
+    public HttpBuilder credentials(Credentials credentials) {
+        if (authType == AuthType.None) throw  new PckException("authenticationType");
+        if (credentials == null) throw new PckException("credentials is nulll");
+        this.credentials = credentials;
+        return  this;
+    }
+
+    /**
+     * static #com.pck.httppck.HttpLog.LOG
+     */
+    public  HttpBuilder enableLog(){
+        HttpLog.LOG = true;
+        return  this;
+    }
+
+    /**
+     * static #com.pck.httppck.HttpLog.LOG
+     */
+    public  HttpBuilder disableLog(){
+        HttpLog.LOG = true;
+        return  this;
+    }
+
+
+
     @SuppressWarnings("UnnecessaryLocalVariable")
     public Http build(Context context) {
         ConnectivityManager connectivityManager =
@@ -56,18 +86,6 @@ public class HttpBuilder {
                  );
         return authUrlConnection;
 
-    }
-
-    public  HttpBuilder authenticationType(AuthType authType){
-        this.authType = authType;
-        return  this;
-    }
-
-    public HttpBuilder credentials(Credentials credentials) {
-        if (authType == AuthType.None) throw  new PckException("authenticationType");
-        if (credentials == null) throw new PckException("credentials is nulll");
-        this.credentials = credentials;
-        return  this;
     }
 
 }
