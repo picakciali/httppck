@@ -34,11 +34,19 @@ public class HttpBuilder {
     }
 
 
+    /**
+     * istek bir doğrulama gerçekleştirilecekse
+     * bu method ile doğrulama tipi  ile (örn: basic authentication) bildirilir
+     */
     public  HttpBuilder authenticationType(AuthType authType){
         this.authType = authType;
         return  this;
     }
 
+    /**
+     * istek bir doğrulama gerçekleştirilecekse
+     * bu method ile kimlik bilgileri doldurulur
+     */
     public HttpBuilder credentials(Credentials credentials) {
         if (authType == AuthType.None) throw  new PckException("authenticationType");
         if (credentials == null) throw new PckException("credentials is nulll");
@@ -63,7 +71,9 @@ public class HttpBuilder {
     }
 
 
-
+    /**
+     * Http nesnesini oluşturur
+     */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public Http build(Context context) {
         ConnectivityManager connectivityManager =
