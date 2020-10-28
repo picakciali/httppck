@@ -66,7 +66,7 @@ public class HttpBuilder {
      * static #com.pck.httppck.HttpLog.LOG
      */
     public  HttpBuilder disableLog(){
-        HttpLog.LOG = true;
+        HttpLog.LOG = false;
         return  this;
     }
 
