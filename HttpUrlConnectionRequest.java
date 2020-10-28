@@ -132,7 +132,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
     @Override
     public HttpRequest authentication(Credentials credentials,AuthenticationType type) {
         if (credentials == null) throw  new PckException("credentials === null");
-
         this.auth = true;
         authentication = AuthenticationFactory.create(type,context);
         authentication.setRequest(this);
