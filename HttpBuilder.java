@@ -23,11 +23,11 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
  Http Pck Rest Client Factory
  */
 
-public class HttpFactory {
+public class HttpBuilder {
 
     private Credentials credentials;
     private final AuthenticationType type;
-    private boolean log;
+
 
 
     /*
@@ -35,7 +35,7 @@ public class HttpFactory {
      * Factory nesnesi herhangi bir kimlik
      * doğrulama olmayan doğrudan istek durumlarında kullanılabilir
      */
-    public  HttpFactory(){
+    public HttpBuilder(){
         this(AuthenticationType.None);
     }
 
@@ -45,11 +45,12 @@ public class HttpFactory {
      * HttpFactory nesnesinden talep edebilirsiniz
      * @param type Authentication Type
      */
-    public HttpFactory(AuthenticationType type) {
+    public HttpBuilder(AuthenticationType type) {
         this.type = type;
     }
 
-    public Http create(Context context) {
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    public Http build(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         Network network = new NetworkImpl(connectivityManager);
@@ -57,29 +58,29 @@ public class HttpFactory {
 
         if (type == AuthenticationType.None) {//standart
             HttpUrlConnection con = new HttpUrlConnection(serializer, network);
-            con.log = log;
             return  con;
         }
 
-        credentials.type = AuthenticationType.TokenBasedAuthentication;
+
         HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection
                 (
                 serializer,
                 network,
-                credentials,context,type
+                credentials,
+                context,
+                type
                  );
-        authUrlConnection.log = log;
         return authUrlConnection;
 
     }
 
-    public void setCredentials(Credentials credentials) {
+    public HttpBuilder credentials(Credentials credentials) {
+        if (credentials == null) throw  new PckException("credentials === null");
         this.credentials = credentials;
+        return  this;
     }
 
 
-    public void enableLog(){
-        this.log = true;
-    }
+
 
 }

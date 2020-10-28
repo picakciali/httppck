@@ -69,13 +69,7 @@ public interface HttpRequest {
      * @return ""
      */
     HttpRequest proxy(Proxy proxy);
-    /**
-     * Log durumu
-     * istek ve cevaplarla ilgili
-     * detayların LogChat ile basılıp
-     * basılmama tercihini be method ile belirlenmektedir
-     */
-    HttpRequest logStatus(boolean status);
+
     /**
      * Application Context ihtiyac duyulduğu
      * zaman bu methotdan

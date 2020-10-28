@@ -61,7 +61,8 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private boolean auth = false;
     private Authentication authentication;
     private Context context;
-    private boolean log;
+    @SuppressWarnings("FieldMayBeFinal")
+    private boolean log = false;
 
     HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network) {
         this.url = url;
@@ -113,13 +114,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
         return  authentication;
     }
 
-    @Override
-    public HttpRequest logStatus(boolean status) {
-        this.log = status;
-        return this;
-    }
-
-
 
     @Override
     public HttpRequest handler(ResponseHandler<?> handler) {
@@ -131,7 +125,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     @Override
     public HttpRequest authentication(Credentials credentials,AuthenticationType type) {
-        if (credentials == null) throw  new PckException("credentials === null");
+
         this.auth = true;
         authentication = AuthenticationFactory.create(type,context);
         authentication.setRequest(this);

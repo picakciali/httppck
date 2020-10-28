@@ -17,7 +17,7 @@ Not: Kullanıma başlamadan önce bu kütüphanede JSON formatları için GSON k
 Aşağıdaki örnek'de belirlenen url'ye bir post isteği yapılmaktadır, Bu post isteğinde UYE nesnesini seriliaze etmenize gerek yoktur, Kütüphane otamatik olarak seriliaze ederek yapar isteği
 
 ```java
-Http http = new HttpFactory().create(context);
+Http http = new HttpBuilder().build(context);
 http.post("http://xxxx.com/api/users")
     .data(new UYE("Ali","PIÇAKCI"))
     .send();
@@ -80,16 +80,15 @@ Eğer bir Token Based Authentication  sunucunuz varsa bu kütüphaneyle kolayca 
 
 Not: grant_type değeri default olarak "password" dur..
 
-```java
+```jav
         Credentials credentials =  new Credentials();
         credentials.username = "xxxx";
         credentials.password = "xxxxx";
-        credentials.type = AuthType.TokenBasedAuthentication;
         credentials.url = "http://www.xxx.com/token";
-        HttpFactory factory  =  new HttpFactory(HttpFactory.AUTH);
-        factory.setCredentials(credentials);
-        Http http =  factory.create(context);
-        
+        Http http = new HttpBuilder(AuthenticationType.TokenBasedAuthentication)
+                    .credentials(credentials)
+                    .build(context);
+
         http.get("http://www.xxx.com/api/getUsers").handler(responsehandler).send()
 
 ```  

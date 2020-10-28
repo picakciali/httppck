@@ -16,7 +16,7 @@ abstract class AbstractHttp implements Http{
 
     final HttpSerializer serializer;
     final Network network;
-    public boolean log;
+
 
     AbstractHttp(HttpSerializer serializer, Network network){
         this.serializer = serializer;
