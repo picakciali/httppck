@@ -261,7 +261,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                 connection = (HttpURLConnection) request.url.openConnection(request.proxy);
                 request.init(connection);
                 request.sendData(connection);
-                return request.readData(connection, this);
+                return request.readData(connection);
             }catch (Exception e){
                 if (e instanceof  PckException){
                     PckException exception = (PckException) e;
@@ -273,17 +273,17 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
 
-    private HttpDataResponse readData(HttpURLConnection connection, RequestTask task) throws Exception {
+    private HttpDataResponse readData(HttpURLConnection connection) throws Exception {
         int responseCode = getResponseCode(connection);
 
         if (responseCode >= 500) {
-            String response = getString(connection.getErrorStream(), task);
+            String response = getString(connection.getErrorStream());
             erResLog(response,responseCode);
             return new HttpDataResponse(response, responseCode, connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
-            String errResponse = getString(connection.getErrorStream(), task);
+            String errResponse = getString(connection.getErrorStream());
             erResLog(errResponse,responseCode);
             return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
@@ -302,11 +302,11 @@ class HttpUrlConnectionRequest implements HttpRequest {
         }
 
         if (type.equals(String.class)) {
-            String r = getString(input, task);
+            String r = getString(input);
             okStringResLog(r,responseCode);
             return new HttpDataResponse(r, responseCode, connection.getHeaderFields());
         }
-        String value = getString(input, task);
+        String value = getString(input);
         if (type == Object.class) {
             okStringResLog(value,responseCode);
             return new HttpDataResponse(value, responseCode, connection.getHeaderFields());
@@ -315,7 +315,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         return new HttpDataResponse(serializer.deserialize(value, type), responseCode, connection.getHeaderFields());
     }
 
-    private String getString(InputStream input, RequestTask task) throws IOException {
+    private String getString(InputStream input) throws IOException {
         String result = null;
 
         int maxLength = 64 * 1024;
