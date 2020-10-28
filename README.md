@@ -86,7 +86,7 @@ Not: grant_type değeri default olarak "password" dur..
         credentials.password = "xxxxx";
         credentials.url = "http://www.xxx.com/token";
         Http http = new HttpBuilder()
-                    .authenticationType(AuthenticationType.TokenBasedAuthentication)
+                    .authType(AuthType.TokenBasedAuthentication)
                     .credentials(credentials)
                     .build(context);
 

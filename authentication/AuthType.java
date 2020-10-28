@@ -12,7 +12,7 @@ package com.pck.httppck.authentication;
  * Kütüphane tarafından desteklenenker şu an için
  *    TokenBasedAuthentication )
  */
-public enum AuthenticationType {
+public enum AuthType {
         /**
          */
         None,

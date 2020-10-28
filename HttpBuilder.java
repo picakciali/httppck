@@ -11,7 +11,7 @@ package com.pck.httppck;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import com.pck.httppck.authentication.AuthenticationType;
+import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.network.NetworkImpl;
@@ -26,11 +26,11 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
 public class HttpBuilder {
 
     private Credentials credentials;
-    private  AuthenticationType authType;
+    private AuthType authType;
 
 
     public HttpBuilder(){
-        AuthenticationType authType = AuthenticationType.None;
+        AuthType authType = AuthType.None;
     }
 
 
@@ -41,7 +41,7 @@ public class HttpBuilder {
         Network network = new NetworkImpl(connectivityManager);
         HttpSerializer serializer = new JsonHttpSerializer();
 
-        if (authType == AuthenticationType.None) {//standart
+        if (authType == AuthType.None) {//standart
             HttpUrlConnection con = new HttpUrlConnection(serializer, network);
             return  con;
         }
@@ -58,13 +58,13 @@ public class HttpBuilder {
 
     }
 
-    public  HttpBuilder authenticationType(AuthenticationType authenticationType){
-        this.authType = authenticationType;
+    public  HttpBuilder authenticationType(AuthType authType){
+        this.authType = authType;
         return  this;
     }
 
     public HttpBuilder credentials(Credentials credentials) {
-        if (authType == AuthenticationType.None) throw  new PckException("authenticationType");
+        if (authType == AuthType.None) throw  new PckException("authenticationType");
         if (credentials == null) throw new PckException("credentials is nulll");
         this.credentials = credentials;
         return  this;

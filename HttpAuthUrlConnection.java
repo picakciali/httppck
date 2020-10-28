@@ -10,7 +10,7 @@ package com.pck.httppck;
 
 import android.content.Context;
 
-import com.pck.httppck.authentication.AuthenticationType;
+import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.serializers.HttpSerializer;
@@ -23,19 +23,19 @@ class HttpAuthUrlConnection extends  AbstractHttp {
 
     private final Credentials credentials;
     private final Context context;
-    private final AuthenticationType authenticationType;
+    private final AuthType authType;
 
     HttpAuthUrlConnection(
             HttpSerializer serializer,
             Network network,
             Credentials credentials,
             Context context,
-            AuthenticationType authenticationType
+            AuthType authType
     ){
         super(serializer,network);
         this.credentials = credentials;
         this.context =context;
-        this.authenticationType = authenticationType;
+        this.authType = authType;
     }
 
     @Override
@@ -44,7 +44,7 @@ class HttpAuthUrlConnection extends  AbstractHttp {
 
             return new HttpUrlConnectionRequest(new URL(url), method, serializer, network)
             .context(context)
-            .authentication(credentials,authenticationType);
+            .authentication(credentials, authType);
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);
         }

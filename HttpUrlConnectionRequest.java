@@ -12,11 +12,10 @@ package com.pck.httppck;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
-import android.util.Log;
 
+import com.pck.httppck.authentication.AuthType;
 import com.pck.httppck.authentication.Authentication;
-import com.pck.httppck.authentication.AuthenticationFactory;
-import com.pck.httppck.authentication.AuthenticationType;
+import com.pck.httppck.authentication.AuthFactory;
 import com.pck.httppck.authentication.Credentials;
 import com.pck.httppck.network.Network;
 import com.pck.httppck.network.NetworkError;
@@ -28,7 +27,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
@@ -124,9 +122,9 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     @Override
-    public HttpRequest authentication(Credentials credentials,AuthenticationType type) {
+    public HttpRequest authentication(Credentials credentials, AuthType type) {
         this.auth = true;
-        authentication = AuthenticationFactory.create(type,context);
+        authentication = AuthFactory.create(type,context);
         authentication.setRequest(this);
         authentication.setCredentials(credentials);
         return  this;
