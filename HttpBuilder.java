@@ -26,25 +26,13 @@ import com.pck.httppck.serializers.JsonHttpSerializer;
 public class HttpBuilder {
 
     private Credentials credentials;
-    private final AuthenticationType type;
-    /*
-     * Bu constructor ile oluşuturulan
-     * Factory nesnesi herhangi bir kimlik
-     * doğrulama olmayan doğrudan istek durumlarında kullanılabilir
-     */
+    private  AuthenticationType authType;
+
+
     public HttpBuilder(){
-        this(AuthenticationType.None);
+        AuthenticationType authType = AuthenticationType.None;
     }
 
-    /**
-     * Kimlik doğrulama gerektiren  http
-     * isteklerinizi bu constructor ile oluşturdugunuz
-     * HttpFactory nesnesinden talep edebilirsiniz
-     * @param type Authentication Type
-     */
-    public HttpBuilder(AuthenticationType type) {
-        this.type = type;
-    }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
     public Http build(Context context) {
@@ -53,7 +41,7 @@ public class HttpBuilder {
         Network network = new NetworkImpl(connectivityManager);
         HttpSerializer serializer = new JsonHttpSerializer();
 
-        if (type == AuthenticationType.None) {//standart
+        if (authType == AuthenticationType.None) {//standart
             HttpUrlConnection con = new HttpUrlConnection(serializer, network);
             return  con;
         }
@@ -64,14 +52,20 @@ public class HttpBuilder {
                 network,
                 credentials,
                 context,
-                type
+                 authType
                  );
         return authUrlConnection;
 
     }
 
+    public  HttpBuilder authenticationType(AuthenticationType authenticationType){
+        this.authType = authenticationType;
+        return  this;
+    }
+
     public HttpBuilder credentials(Credentials credentials) {
-        if (credentials == null) throw  new PckException("credentials === null");
+        if (authType == AuthenticationType.None) throw  new PckException("authenticationType");
+        if (credentials == null) throw new PckException("credentials is nulll");
         this.credentials = credentials;
         return  this;
     }

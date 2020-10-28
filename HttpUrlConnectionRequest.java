@@ -125,7 +125,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     @Override
     public HttpRequest authentication(Credentials credentials,AuthenticationType type) {
-
         this.auth = true;
         authentication = AuthenticationFactory.create(type,context);
         authentication.setRequest(this);
