@@ -59,8 +59,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private boolean auth = false;
     private Authentication authentication;
     private Context context;
-    @SuppressWarnings("FieldMayBeFinal")
-    private boolean log = false;
+
 
     HttpUrlConnectionRequest(URL url, String method, HttpSerializer serializer, Network network) {
         this.url = url;
