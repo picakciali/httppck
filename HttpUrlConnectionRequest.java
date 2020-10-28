@@ -138,7 +138,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         if (network.isOffline()) {
             handler.failure(NetworkError.Offline);
             handler.complete();
-            infoLog("Cancellable.EMPTY");
+            HttpLog.infoLog("Cancellable.EMPTY");
             return;
         }
         new RequestTask(this).execute();
@@ -197,7 +197,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                     connection = null;
                                 }
                                 request.authentication.clearToken();
-                                request.errLog("old token deleted");
+                                HttpLog.errLog("old token deleted");
                                 HttpDataResponse newResponse = getResponse();
                                 return new Action() {
                                     @Override
@@ -243,7 +243,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         protected void onPostExecute(Action action) {
             action.call();
             request.handler.complete();
-            request.infoLog("httpPck is completed");
+            HttpLog.infoLog("httpPck is completed");
         }
 
         private  HttpDataResponse  getResponse()  {
@@ -253,7 +253,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     String token = authentication.getToken();
                     if (token == null) {
                         authentication.newToken();
-                        request.errLog("token refresh :"+authentication.getToken());
+                        HttpLog.errLog("token refresh :"+authentication.getToken());
                     }
                     authentication.addHeaders();
 
@@ -274,17 +274,17 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
 
     private HttpDataResponse readData(HttpURLConnection connection) throws Exception {
-        int responseCode = getResponseCode(connection);
+        int responseCode = Unit.getResponseCode(connection);
 
         if (responseCode >= 500) {
-            String response = getString(connection.getErrorStream());
-            erResLog(response,responseCode);
+            String response = Unit.getString(connection.getErrorStream());
+            HttpLog.erResLog(response,responseCode,type);
             return new HttpDataResponse(response, responseCode, connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
-            String errResponse = getString(connection.getErrorStream());
-            erResLog(errResponse,responseCode);
+            String errResponse = Unit.getString(connection.getErrorStream());
+            HttpLog.erResLog(errResponse,responseCode,type);
             return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
 
@@ -302,52 +302,20 @@ class HttpUrlConnectionRequest implements HttpRequest {
         }
 
         if (type.equals(String.class)) {
-            String r = getString(input);
-            okStringResLog(r,responseCode);
+            String r = Unit.getString(input);
+            HttpLog.okStringResLog(r,responseCode,type);
             return new HttpDataResponse(r, responseCode, connection.getHeaderFields());
         }
-        String value = getString(input);
+        String value = Unit.getString(input);
         if (type == Object.class) {
-            okStringResLog(value,responseCode);
+            HttpLog.okStringResLog(value,responseCode,type);
             return new HttpDataResponse(value, responseCode, connection.getHeaderFields());
         }
-        resLog(value,responseCode);
+        HttpLog.resLog(value,responseCode,type,serializer);
         return new HttpDataResponse(serializer.deserialize(value, type), responseCode, connection.getHeaderFields());
     }
 
-    private String getString(InputStream input) throws IOException {
-        String result = null;
 
-        int maxLength = 64 * 1024;
-        //noinspection CharsetObjectCanBeUsed
-        InputStreamReader reader = new InputStreamReader(input, "UTF-8");
-
-        char[] buffer = new char[maxLength];
-
-        int numChars = 0;
-        int readSize = 0;
-        while (numChars < maxLength && readSize != -1) {
-            numChars += readSize;
-            int pct = (100 * numChars) / maxLength;
-            readSize = reader.read(buffer, numChars, buffer.length - numChars);
-
-        }
-        if (numChars != -1) {
-            result = new String(buffer, 0, numChars);
-        }
-        return result;
-    }
-
-    private int getResponseCode(HttpURLConnection connection) throws IOException {
-        try {
-            return connection.getResponseCode();
-        } catch (IOException e) {
-            //noinspection ConstantConditions
-            if (e.getMessage().equals("Received authentication challenge is null"))
-                return 401;
-            throw e;
-        }
-    }
 
     private void validate(HttpURLConnection connection) {
         if (!url.getHost().equals(connection.getURL().getHost())) {
@@ -366,16 +334,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
     }
 
 
-    private void  infoLog(String message){
-        if (this.log){
-            Log.i(TAG,message);
-        }
-    }
-    private void  errLog(String message){
-        if (this.log){
-            Log.e(TAG,message);
-        }
-    }
+
 
 
     private void sendData(HttpURLConnection connection) throws IOException {
@@ -389,14 +348,14 @@ class HttpUrlConnectionRequest implements HttpRequest {
             } else if (data instanceof String) {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
-                infoLog("SENT: " + data);
+                HttpLog.infoLog("SENT: " + data);
                 writer.write((String) data);
                 writer.flush();
             } else {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 String output = serializer.serialize(data);
-                sendDataLog(output,data);
+                HttpLog.sendDataLog(output,data);
                 writer.write(output);
                 writer.flush();
             }
@@ -427,68 +386,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
         else
             connection.setRequestProperty("Content-Type", serializer.getContentType());
 
-    }
-    private void sendDataLog(String send,Object data){
-        try {
-            String builder = "  " +
-                    "\nHttpPck               :Request\n" +
-                    "Method Name           :send_data" +
-                    "\n" +
-                    "send object type      :" + data.getClass().getName() +
-                    "\n" +
-                    "toString              :" + data.toString() +
-                    "\n" +
-                    "seriliaze             :" + send ;
-            infoLog(builder);
-        }catch (Exception ignored){}
-    }
-
-
-    private void okStringResLog(String response,int code){
-        try {
-            String builder = "  " +
-                    "\nHttpPck                    :Response\n" +
-                    "Method Name                :read_data" +
-                    "\n" +
-                    "respose code               :" + code+
-                    "\n" +
-                    "success object type        :" + type.getName() +
-                    "\n" +
-                    "value                      :" + response ;
-            infoLog(builder);
-        }catch (Exception ignored){}
-    }
-
-    private void erResLog(String error,int code){
-        try {
-            String builder = "  " +
-                    "\nHttpPck                 :Error  Response\n" +
-                    "Method Name             :read_data" +
-                    "\n" +
-                    "respose code            :" + code+
-                    "\n" +
-                    "success object type     :" + type.getName() +
-                    "\n" +
-                    "Error                   :" + error ;
-            errLog(builder);
-        }catch (Exception ignored){}
-    }
-
-    private void resLog(String value,int responseCode){
-        try {
-            String builder = "  " +
-                    "\nHttpPck                      :Response\n" +
-                    "Method Name                  :read_data" +
-                    "\n" +
-                    "respose code                 :" + responseCode +
-                    "\n" +
-                    "success object type          :" + type.getName() +
-                    "\n" +
-                    "response                     :" + value +
-                    "\n" +
-                    "deserialize                  :" + serializer.deserialize(value, type);
-            infoLog(builder);
-        }catch (Exception ignored){}
     }
 
 

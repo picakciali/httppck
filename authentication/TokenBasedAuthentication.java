@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.pck.httppck.HttpRequest;
 import com.pck.httppck.HttpResponse;
 import com.pck.httppck.PckException;
+import com.pck.httppck.Unit;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -143,49 +144,21 @@ class TokenBasedAuthentication implements Authentication {
 
 
     private TokenResponse readData(HttpURLConnection connection) throws Exception {
-        int responseCode = getResponseCode(connection);
+        int responseCode = Unit.getResponseCode(connection);
 
         if (responseCode >= 400) {
-            String err = getString(connection.getErrorStream());
+            String err = Unit.getString(connection.getErrorStream());
             throw new PckException(err);
         }
 
         InputStream input = new BufferedInputStream(connection.getInputStream());
-        String value = getString(input);
+        String value = Unit.getString(input);
         return new Gson().fromJson(value, TokenResponse.class);
     }
 
-    private String getString(InputStream input) throws IOException {
-        String result = null;
 
-        int maxLength = 64 * 1024;
-        InputStreamReader reader = new InputStreamReader(input, "UTF-8");
 
-        char[] buffer = new char[maxLength];
 
-        int numChars = 0;
-        int readSize = 0;
-        while (numChars < maxLength && readSize != -1) {
-            numChars += readSize;
-            int pct = (100 * numChars) / maxLength;
-            readSize = reader.read(buffer, numChars, buffer.length - numChars);
-
-        }
-        if (numChars != -1) {
-            result = new String(buffer, 0, numChars);
-        }
-        return result;
-    }
-
-    private int getResponseCode(HttpURLConnection connection) throws IOException {
-        try {
-            return connection.getResponseCode();
-        } catch (IOException e) {
-            if (e.getMessage().equals("Received authentication challenge is null"))
-                return 401;
-            throw e;
-        }
-    }
 
     static class TokenResponse {
         String access_token;

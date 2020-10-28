@@ -27,9 +27,6 @@ public class HttpBuilder {
 
     private Credentials credentials;
     private final AuthenticationType type;
-
-
-
     /*
      * Bu constructor ile oluşuturulan
      * Factory nesnesi herhangi bir kimlik
@@ -61,7 +58,6 @@ public class HttpBuilder {
             return  con;
         }
 
-
         HttpAuthUrlConnection authUrlConnection = new HttpAuthUrlConnection
                 (
                 serializer,
@@ -79,8 +75,5 @@ public class HttpBuilder {
         this.credentials = credentials;
         return  this;
     }
-
-
-
 
 }
