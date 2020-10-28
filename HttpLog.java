@@ -17,7 +17,7 @@ public  class HttpLog {
 
     public static void  infoLog(String message){
         if (LOG){
-            android.util.Log.i("TAG",message);
+            android.util.Log.i(TAG,message);
         }
     }
     public static void  errLog(String message){
