@@ -12,7 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetworkImpl implements Network {
-    private ConnectivityManager manager;
+    private final ConnectivityManager manager;
 
     public NetworkImpl(ConnectivityManager manager) {
         this.manager = manager;
