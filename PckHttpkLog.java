@@ -8,11 +8,11 @@ package com.pck.httppck;
 
 import com.pck.httppck.serializers.HttpSerializer;
 
-public  class HttpLog {
+public  class PckHttpkLog {
     public static final String TAG = "|httpPck|";
     public static boolean LOG = false;
 
-    private HttpLog(){}
+    private PckHttpkLog(){}
 
 
     public static void  infoLog(String message){

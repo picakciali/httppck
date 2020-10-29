@@ -132,7 +132,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         if (network.isOffline()) {
             handler.failure(NetworkError.Offline);
             handler.complete();
-            HttpLog.infoLog("Cancellable.EMPTY");
+            PckHttpkLog.infoLog("Cancellable.EMPTY");
             return;
         }
         new RequestTask(this).execute();
@@ -191,7 +191,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                                     connection = null;
                                 }
                                 request.authentication.clearToken();
-                                HttpLog.errLog("old token deleted");
+                                PckHttpkLog.errLog("old token deleted");
                                 HttpDataResponse newResponse = getResponse();
                                 return new Action() {
                                     @Override
@@ -237,7 +237,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
         protected void onPostExecute(Action action) {
             action.call();
             request.handler.complete();
-            HttpLog.infoLog("httpPck is completed");
+            PckHttpkLog.infoLog("httpPck is completed");
         }
 
         private  HttpDataResponse  getResponse()  {
@@ -247,7 +247,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                     String token = authentication.getToken();
                     if (token == null) {
                         authentication.newToken();
-                        HttpLog.errLog("token refresh :"+authentication.getToken());
+                        PckHttpkLog.errLog("token refresh :"+authentication.getToken());
                     }
                     authentication.addHeaders();
 
@@ -277,13 +277,13 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
         if (responseCode >= 500) {
             String response = Unit.getString(connection.getErrorStream());
-            HttpLog.erResLog(response,responseCode,type);
+            PckHttpkLog.erResLog(response,responseCode,type);
             return new HttpDataResponse(response, responseCode, connection.getHeaderFields());
         }
 
         if (responseCode >= 400) {
             String errResponse = Unit.getString(connection.getErrorStream());
-            HttpLog.erResLog(errResponse,responseCode,type);
+            PckHttpkLog.erResLog(errResponse,responseCode,type);
             return new HttpDataResponse(errResponse, responseCode, connection.getHeaderFields());
         }
 
@@ -302,15 +302,15 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
         if (type.equals(String.class)) {
             String r = Unit.getString(input);
-            HttpLog.okStringResLog(r,responseCode,type);
+            PckHttpkLog.okStringResLog(r,responseCode,type);
             return new HttpDataResponse(r, responseCode, connection.getHeaderFields());
         }
         String value = Unit.getString(input);
         if (type == Object.class) {
-            HttpLog.okStringResLog(value,responseCode,type);
+            PckHttpkLog.okStringResLog(value,responseCode,type);
             return new HttpDataResponse(value, responseCode, connection.getHeaderFields());
         }
-        HttpLog.resLog(value,responseCode,type,serializer);
+        PckHttpkLog.resLog(value,responseCode,type,serializer);
         return new HttpDataResponse(serializer.deserialize(value, type), responseCode, connection.getHeaderFields());
     }
 
@@ -347,14 +347,14 @@ class HttpUrlConnectionRequest implements HttpRequest {
             } else if (data instanceof String) {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
-                HttpLog.infoLog("SENT: " + data);
+                PckHttpkLog.infoLog("SENT: " + data);
                 writer.write((String) data);
                 writer.flush();
             } else {
                 //noinspection CharsetObjectCanBeUsed
                 OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
                 String output = serializer.serialize(data);
-                HttpLog.sendDataLog(output,data);
+                PckHttpkLog.sendDataLog(output,data);
                 writer.write(output);
                 writer.flush();
             }
