@@ -56,7 +56,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
     private final String method;
     private final HttpSerializer serializer;
     private final Network network;
-    private boolean auth = false;
     private Authentication authentication;
     private Context context;
 
@@ -122,7 +121,6 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     @Override
     public HttpRequest authentication(Credentials credentials, AuthType type) {
-        this.auth = true;
         authentication = AuthFactory.create(type,context);
         authentication.setRequest(this);
         authentication.setCredentials(credentials);
@@ -181,7 +179,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
                 //noinspection StatementWithEmptyBody
                 if (response.getCode() < 400) {
                 }else {
-                    if (request.auth){
+                    if (request.isAuth()){
                         String error = (String) response.getData();
                         if (error != null){
                             if ( error.contains("yetkilendirme")
@@ -244,7 +242,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
         private  HttpDataResponse  getResponse()  {
             try {
-                if (request.auth) {
+                if (request.isAuth()) {
                     Authentication authentication = request.authentication;
                     String token = authentication.getToken();
                     if (token == null) {
@@ -266,6 +264,11 @@ class HttpUrlConnectionRequest implements HttpRequest {
                 return new HttpDataResponse(e.getMessage(),500,null);
             }
         }
+    }
+
+
+    private boolean isAuth(){
+        return  authentication != null;
     }
 
 
