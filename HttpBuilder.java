@@ -30,7 +30,7 @@ public class HttpBuilder {
 
 
     public HttpBuilder(){
-        AuthType authType = AuthType.None;
+        this.authType = AuthType.None;
     }
 
 
