@@ -31,7 +31,7 @@ public class Unit {
     public static String getString(InputStream input) throws IOException {
         String result = null;
 
-        int maxLength = 64 * 1024; //64 kb - bu kütüphane bir rest  api istemcisi olduğunu unutmayın, 64 kb yeterli bir tampon uzunluğu olacaktır
+        int maxLength = 64 * 1024; //64 kb - 
         //noinspection CharsetObjectCanBeUsed
         InputStreamReader reader = new InputStreamReader(input, "UTF-8");
 
