@@ -78,7 +78,9 @@ public class HttpBuilder {
     public Http build(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+       
         Network network = new NetworkImpl(connectivityManager);
+        
         HttpSerializer serializer = new JsonHttpSerializer();
 
         if (authType == AuthType.None) {//standart
