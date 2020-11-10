@@ -29,26 +29,18 @@ public class Unit {
     }
 
     public static String getString(InputStream input) throws IOException {
-        String result = null;
 
         int maxLength = 64 * 1024;
-        //noinspection CharsetObjectCanBeUsed
         InputStreamReader reader = new InputStreamReader(input, "UTF-8");
-
         char[] buffer = new char[maxLength];
-
-        int numChars = 0;
-        int readSize = 0;
-        while (numChars < maxLength && readSize != -1) {
-            numChars += readSize;
-            int pct = (100 * numChars) / maxLength;
-            readSize = reader.read(buffer, numChars, buffer.length - numChars);
-
+        StringBuilder builder = new StringBuilder();
+        int len;
+        while ((len = reader.read(buffer)) > 0) {
+            builder.append(buffer, 0, len);
         }
-        if (numChars != -1) {
-            result = new String(buffer, 0, numChars);
-        }
-        return result;
+
+        reader.close();
+        return builder.toString();
     }
 
 }

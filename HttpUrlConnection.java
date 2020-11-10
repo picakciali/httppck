@@ -26,8 +26,7 @@ class HttpUrlConnection extends  AbstractHttp{
     @Override
     public HttpRequest request(String url, String method) {
         try {
-            HttpRequest connection = new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
-            return  connection;
+            return new HttpUrlConnectionRequest(new URL(url), method, serializer, network);
         } catch (MalformedURLException e) {
             throw  new RuntimeException(e);
         }
