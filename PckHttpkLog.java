@@ -11,7 +11,8 @@ import com.pck.httppck.serializers.HttpSerializer;
 public  class PckHttpkLog {
     public static final String TAG = "|httpPck|";
     public static boolean LOG = false;
-
+    
+    //sınıfdan nesne oluşturulmasını engelle
     private PckHttpkLog(){}
 
 
