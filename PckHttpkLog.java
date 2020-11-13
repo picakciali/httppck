@@ -28,8 +28,7 @@ public  class PckHttpkLog {
     }
 
     public static void sendDataLog(String send,Object data){
-        try {
-            String builder = "  " +
+         String builder = "  " +
                     "\nHttpPck               :Request\n" +
                     "Method Name           :send_data" +
                     "\n" +
@@ -39,13 +38,11 @@ public  class PckHttpkLog {
                     "\n" +
                     "seriliaze             :" + send ;
             infoLog(builder);
-        }catch (Exception ignored){}
     }
 
 
     public static void okStringResLog(String response,int code,Class<?> type){
-        try {
-            String builder = "  " +
+       String builder = "  " +
                     "\nHttpPck                    :Response\n" +
                     "Method Name                :read_data" +
                     "\n" +
@@ -55,12 +52,10 @@ public  class PckHttpkLog {
                     "\n" +
                     "value                      :" + response ;
             infoLog(builder);
-        }catch (Exception ignored){}
     }
 
     public static void erResLog(String error,int code,Class<?> type){
-        try {
-            String builder = "  " +
+                  String builder = "  " +
                     "\nHttpPck                 :Error  Response\n" +
                     "Method Name             :read_data" +
                     "\n" +
@@ -70,12 +65,22 @@ public  class PckHttpkLog {
                     "\n" +
                     "Error                   :" + error ;
             errLog(builder);
-        }catch (Exception ignored){}
     }
-
+  
+    public static void erResLog(Exception error,int code,Class<?> type){
+                     String builder = "  " +
+                       "\nHttpPck                 :Error  Response\n" +
+                       "Method Name             :read_data" +
+                       "\n" +
+                       "respose code            :" + code+
+                       "\n" +
+                       "success object type     :" + type.getName() +
+                       "\n" +
+                    "Error                   :" + error ;
+            errLog(builder);
+    }
     public static void resLog(String value, int responseCode, Class<?> type, HttpSerializer serializer){
-        try {
-            String builder = "  " +
+               String builder = "  " +
                     "\nHttpPck                      :Response\n" +
                     "Method Name                  :read_data" +
                     "\n" +
@@ -87,7 +92,6 @@ public  class PckHttpkLog {
                     "\n" +
                     "deserialize                  :" + serializer.deserialize(value, type);
             infoLog(builder);
-        }catch (Exception ignored){}
     }
 
 }
