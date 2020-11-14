@@ -41,7 +41,7 @@ class HttpUrlConnectionRequest implements HttpRequest {
 
     private static final String TAG = "|httpPck|";
     private static final int DEFAULT_TIMEOUT = 60000;
-    private static final int DEFAULT_SLEEP = 500;
+    private static final int DEFAULT_SLEEP = 0;
 
     private Proxy proxy = Proxy.NO_PROXY;
     private int timeout = DEFAULT_TIMEOUT;
