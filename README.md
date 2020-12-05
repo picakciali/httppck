@@ -1,5 +1,5 @@
 ```diff
-- deneme
+- bu kütüphane artık geliştirilmemektedir,Android  11 ile birlikte AsyncTask sınıfı kullanımdan kaldırılmış olduğundan
 ```
 
 
