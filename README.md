@@ -1,13 +1,5 @@
-<div class="alert alert-danger" role="alert" style="background:red">
-    <div class="row vertical-align">
-        <div class="col-xs-1 text-center">
-            <i class="fa fa-exclamation-triangle fa-2x"></i>
-        </div>
-        <div class="col-xs-11">
-                <strong>Error:</strong>                   
-        </div>   
-    </div> 
-</div>
+**My Bold Text, in red color.**{: style="color: red; opacity: 0.80;" }
+
 
 # Pck-Http Android REST (JSON) Client
 Httppck, Android uygulamarınızda REST isteklerinizi basit bir şekilde yapabilmek için  tasarlanmıştır, Android SDK içinde olan AsyncTask sınıfını kullanarak arka plan isteklerini yürütür..
