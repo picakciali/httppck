@@ -1,7 +1,5 @@
 ```diff
 - text in red
-
-@@ text in purple (and bold)@@
 ```
 
 
