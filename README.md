@@ -1,5 +1,5 @@
 ```diff
- - deneme deneme denemem
+- text in red
 ```
 
 
