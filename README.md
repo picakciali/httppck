@@ -1,4 +1,5 @@
-**My Bold Text, in red color.**{: style="color: red; opacity: 0.80;" }
+<span style="background-color: #FFFF00">Marked text</span>
+
 
 
 # Pck-Http Android REST (JSON) Client
