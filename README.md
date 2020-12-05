@@ -2,7 +2,6 @@
 - bu kütüphane artık geliştirilmemektedir;
 + Sebeb ; Android 11 ile birlikte Google AsyncTask sınıfını kullanımdan kaldırılmıştır.
 ```
-[a link](https://developer.android.com/reference/android/os/AsyncTask)
 
 
 
