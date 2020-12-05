@@ -1,5 +1,6 @@
 ```diff
-- bu kütüphane artık geliştirilmemektedir,Android  11 ile birlikte AsyncTask sınıfı kullanımdan kaldırılmış olduğundan
+- bu kütüphane artık geliştirilmemektedir;
+  Çünkü ,Android  11 ile birlikte AsyncTask sınıfı kullanımdan kaldırılmış olduğundan
 ```
 
 
