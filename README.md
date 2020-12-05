@@ -1,6 +1,7 @@
 ```diff
 - bu kütüphane artık geliştirilmemektedir;
-+ Çünkü ,Android  11 ile birlikte AsyncTask sınıfı kullanımdan kaldırılmış olduğundan
++ Sebeb ; Android 11 ile birlikte Google AsyncTask sınıfını kullanımdan kaldırılmıştır.
+- [a link](https://developer.android.com/reference/android/os/AsyncTask)
 ```
 
 
