@@ -34,7 +34,7 @@ public class ResponseHandler<T>{
 
 
     /**
-     * Hatayla ilgili handler etme (com.pck.evyapimi.http response code >= 400)
+     * Hatayla ilgili handler etme 
      * @param message Hata mesajı
      * @param response Döndürülen Http nesnesi
      */
